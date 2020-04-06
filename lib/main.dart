@@ -78,7 +78,7 @@ class _MainState extends State<Main> {
               blurRadius: 5.0, // has the effect of softening the shadow
               spreadRadius: 0.0, // has the effect of extending the shadow
               offset: Offset(
-                0.0, // horizontal, not moving right
+                0.0, // horizontal, not moving right\
                 5.0, // vertical, move down 5
               ),
             )
