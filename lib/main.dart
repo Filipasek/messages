@@ -66,7 +66,6 @@ class _MainState extends State<Main> {
     return Container(
       height: 115.0,
       padding: EdgeInsets.only(bottom: 10.0, top: 5.0),
-<<<<<<< HEAD
       child: Container(
         width: 75.0,
         height: 100.0,
@@ -96,38 +95,6 @@ class _MainState extends State<Main> {
                   fit: BoxFit.cover,
                   image: NetworkImage(
                       "https://thispersondoesnotexist.com/image.jpg?u=2"),
-=======
-      child: Material(
-        child: Container(
-          width: 75.0,
-          height: 100.0,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(6.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey[100],
-                blurRadius: 5.0, // has the effect of softening the shadow
-                spreadRadius: 0.0, // has the effect of extending the shadow
-                offset: Offset(
-                  0.0, // horizontal, not moving right
-                  5.0, // vertical, move down 5
-                ),
-              )
-            ],
-          ),
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 40.0,
-                width: 40.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage("https://lh3.googleusercontent.com/a-/AOh14Gib0uL324AoZZZugvlmECdYGMtJM6GEGWafbQQ4RWA=s288-cc-rg"),
-                  ),
->>>>>>> d55e91b96588cefba8d109321f6a2828b9a6032a
                 ),
               ),
               padding: const EdgeInsets.only(top: 5.0, bottom: 0.0),
