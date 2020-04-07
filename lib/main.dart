@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stream/models/message_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,18 +11,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.transparent,
-      ),
-    );
-    SystemChrome.setApplicationSwitcherDescription(
-      ApplicationSwitcherDescription(
-        label: 'Wiadomości',
-        primaryColor: Theme.of(context).primaryColor.value,
-      ),
-    );
+    // SystemChrome.setApplicationSwitcherDescription(
+    //   ApplicationSwitcherDescription(
+    //     label: 'Wiadomości',
+    //     primaryColor: Theme.of(context).primaryColor.value,
+    //   ),
+    // );
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.white,
@@ -62,10 +57,10 @@ String _firstName(String _name) {
 }
 
 class _MainState extends State<Main> {
-  Widget _active() {
+  Widget _active(i) {
     return Container(
       height: 115.0,
-      padding: EdgeInsets.only(bottom: 10.0, top: 5.0),
+      padding: EdgeInsets.only(bottom: 10.0, top: 5.0, right: 20.0),
       child: Container(
         width: 75.0,
         height: 100.0,
@@ -86,35 +81,27 @@ class _MainState extends State<Main> {
         ),
         child: Column(
           children: <Widget>[
-            Container(
-              height: 40.0,
-              width: 40.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: new DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      "https://thispersondoesnotexist.com/image.jpg?u=2"),
-                ),
-              ),
-              padding: const EdgeInsets.only(top: 5.0, bottom: 0.0),
+            CircleAvatar(
+              radius: 20.0,
+              backgroundImage: AssetImage(favorites[i].imageUrl),
             ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 5.0),
                 child: Text(
-                  _firstName("Toom Eebr"),
+                  _firstName(favorites[i].name),
                   style: GoogleFonts.comfortaa(
-                      fontSize: 13.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 13.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             Container(
               padding: EdgeInsets.only(bottom: 1.0),
               child: Text(
-                "Messenger",
+                favorites[i].service,
                 style: TextStyle(
                   fontSize: 10.0,
                 ),
@@ -128,6 +115,16 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Theme.of(context).primaryColor,
+        systemNavigationBarIconBrightness:
+            MediaQuery.of(context).platformBrightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
+      ),
+    );
     return Scaffold(
       extendBody: true,
       backgroundColor: Theme.of(context).primaryColor,
@@ -182,9 +179,10 @@ class _MainState extends State<Main> {
           ];
         },
         body: ListView.builder(
-            itemCount: 20,
+            itemCount: chats.length+2,
             itemBuilder: (context, i) {
               bool _unread = i % 3 == 0;
+              int index = i-2;
               if (i == 0) {
                 return Container(
                   color: Theme.of(context).primaryColor,
@@ -218,11 +216,10 @@ class _MainState extends State<Main> {
                         height: 115.0,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 20,
+                          itemCount: favorites.length + 1,
                           itemBuilder: (context, i) {
                             if (i == 0) return SizedBox(width: 20.0);
-                            if (i.isEven) return SizedBox(width: 15.0);
-                            return _active();
+                            return _active(i-1);
                           },
                         ),
                       ),
@@ -295,24 +292,10 @@ class _MainState extends State<Main> {
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(
                                             fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              "https://thispersondoesnotexist.com/image.jpg?u=2",
-                                            ),
+                                            image: AssetImage(chats[index].sender.imageUrl),
                                           ),
                                         ),
                                       ),
-                                      // i % 3 == 0
-                                      //     ? Padding(
-                                      //         padding:
-                                      //             const EdgeInsets.fromLTRB(
-                                      //                 10.0, 20.0, 0.0, 0.0),
-                                      //         child: Icon(
-                                      //           Icons.priority_high,
-                                      //           size: 25.0,
-                                      //           color: Colors.red[600],
-                                      //         ),
-                                      //       )
-                                      //     : SizedBox(),
                                     ],
                                   ),
                                   Expanded(
@@ -327,16 +310,21 @@ class _MainState extends State<Main> {
                                             children: <Widget>[
                                               Expanded(
                                                 child: Text(
-                                                  "Toom Eebr",
+                                                  chats[index].sender.name,
                                                   style: GoogleFonts.comfortaa(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18.0,
-                                                    color: _unread ? Theme.of(context).textTheme.bodyText2.color : Colors.black87,
+                                                    color: _unread
+                                                        ? Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2
+                                                            .color
+                                                        : Colors.black87,
                                                   ),
                                                 ),
                                               ),
                                               Text(
-                                                "16:20",
+                                                chats[index].time,
                                                 style:
                                                     TextStyle(fontSize: 12.0),
                                               ),
@@ -346,7 +334,7 @@ class _MainState extends State<Main> {
                                             padding: const EdgeInsets.only(
                                                 top: 10.0),
                                             child: Text(
-                                              "Hey! Hurry up! Where can I go shopping when I need a motorbike shoes? I really need them right now! May I go?",
+                                              chats[index].text,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
