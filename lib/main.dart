@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stream/models/message_model.dart';
+import 'package:stream/models/user_model.dart';
+import './getters/thread_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -57,6 +59,13 @@ String _firstName(String _name) {
 }
 
 class _MainState extends State<Main> {
+  Future<ThreadList> threadList;
+  @override
+  void initState() {
+    super.initState();
+    threadList = getThreadList();
+  }
+
   Widget _active(i) {
     return Container(
       height: 115.0,
@@ -179,10 +188,10 @@ class _MainState extends State<Main> {
           ];
         },
         body: ListView.builder(
-            itemCount: chats.length+2,
+            itemCount: chats.length + 2,
             itemBuilder: (context, i) {
               bool _unread = i % 3 == 0;
-              int index = i-2;
+              int index = i - 2;
               if (i == 0) {
                 return Container(
                   color: Theme.of(context).primaryColor,
@@ -219,7 +228,7 @@ class _MainState extends State<Main> {
                           itemCount: favorites.length + 1,
                           itemBuilder: (context, i) {
                             if (i == 0) return SizedBox(width: 20.0);
-                            return _active(i-1);
+                            return _active(i - 1);
                           },
                         ),
                       ),
@@ -292,7 +301,8 @@ class _MainState extends State<Main> {
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(
                                             fit: BoxFit.cover,
-                                            image: AssetImage(chats[index].sender.imageUrl),
+                                            image: AssetImage(
+                                                chats[index].sender.imageUrl),
                                           ),
                                         ),
                                       ),
@@ -309,19 +319,36 @@ class _MainState extends State<Main> {
                                           Row(
                                             children: <Widget>[
                                               Expanded(
-                                                child: Text(
-                                                  chats[index].sender.name,
-                                                  style: GoogleFonts.comfortaa(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0,
-                                                    color: _unread
-                                                        ? Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText2
-                                                            .color
-                                                        : Colors.black87,
-                                                  ),
-                                                ),
+                                                child: FutureBuilder<ThreadList>(
+                                                    future: threadList,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      String output;
+                                                      if (snapshot.hasData) {
+                                                        output = snapshot.data.name;
+                                                      }else if(snapshot.hasError){
+                                                        output = "Wystąpił błąd";
+                                                      }else{
+                                                        output = "Ładowanie...";
+                                                      }
+                                                      return Text(
+                                                          output,
+                                                          style: GoogleFonts
+                                                              .comfortaa(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 18.0,
+                                                            color: _unread
+                                                                ? Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText2
+                                                                    .color
+                                                                : Colors
+                                                                    .black87,
+                                                          ),
+                                                        );
+                                                    }),
                                               ),
                                               Text(
                                                 chats[index].time,
