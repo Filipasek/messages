@@ -12,7 +12,7 @@ class User {
   });
 }
 
-class ThreadList{
+class Thread{
   final String threadID;
   final String name;
   final String imageUrl;
@@ -22,7 +22,7 @@ class ThreadList{
   final bool isRead;
   final String byWho;
 
-  ThreadList({
+  Thread({
     this.threadID,
     this.name,
     this.imageUrl,
@@ -33,8 +33,8 @@ class ThreadList{
     this.byWho,
   });
 
-  factory ThreadList.fromJson(Map<String, dynamic> json) {
-    return ThreadList(
+  factory Thread.fromJson(Map<String, dynamic> json) {
+    return Thread(
       threadID: json['threadID'] as String,
       name: json['name'] as String,
       imageUrl: json['imageSrc'] as String,
@@ -43,6 +43,21 @@ class ThreadList{
       message: json['last_message'] as String,
       isRead: json['isRead'] as bool,
       byWho: json['who'] as String,
+    );
+  }
+}
+
+class ThreadList{
+  final List<Thread> threads;
+  ThreadList({
+    this.threads,
+  });
+  
+  factory ThreadList.fromJson(List<dynamic> parsedJson){
+    List<Thread> threads = new List<Thread>();
+    threads = parsedJson.map((i) => Thread.fromJson(i)).toList();
+    return new ThreadList(
+      threads: threads,
     );
   }
 }

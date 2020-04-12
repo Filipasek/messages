@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stream/models/message_model.dart';
 import 'package:stream/models/user_model.dart';
 import './getters/thread_list.dart';
+import './models/user_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -187,199 +188,214 @@ class _MainState extends State<Main> {
             ),
           ];
         },
-        body: ListView.builder(
-            itemCount: chats.length + 2,
-            itemBuilder: (context, i) {
-              bool _unread = i % 3 == 0;
-              int index = i - 2;
-              if (i == 0) {
-                return Container(
-                  color: Theme.of(context).primaryColor,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: Row(
+        body: FutureBuilder(
+            future: threadList,
+            builder: (context, snapshot) {
+              return ListView.builder(
+                  itemCount: 3 + 2,
+                  itemBuilder: (context, i) {
+                    int index = i - 2;
+                    String name;
+                    String time;
+                    String message;
+                    if (snapshot.hasData) {
+                      try {
+                        name = snapshot.data.threads[index].name;
+                        time = snapshot.data.threads[index].time;
+                        message = snapshot.data.threads[index].message;
+                      } catch (e) {
+                        print(e);
+                      }
+                    } else if (snapshot.hasError) {
+                      name = "ERROR";
+                      time = "ERROR";
+                      message = "ERROR";
+                    } else {
+                      name = "ŁADOWANIE";
+                      time = "ŁADOWANIE";
+                      message = "ŁADOWANIE";
+                    }
+                    bool _unread = i % 3 == 0;
+                    
+                    if (i == 0) {
+                      return Container(
+                        color: Theme.of(context).primaryColor,
+                        child: Column(
                           children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                "Aktywni użytkownicy".toUpperCase(),
-                                style: GoogleFonts.raleway(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {},
-                                iconSize: 18.0,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 115.0,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: favorites.length + 1,
-                          itemBuilder: (context, i) {
-                            if (i == 0) return SizedBox(width: 20.0);
-                            return _active(i - 1);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              return Container(
-                padding: EdgeInsets.only(left: 20.0, top: 10.0),
-                child: Column(
-                  children: <Widget>[
-                    i == 1
-                        ? Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  "twoje wiadomości".toUpperCase(),
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold,
+                              padding: EdgeInsets.only(left: 20.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      "Aktywni użytkownicy".toUpperCase(),
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: IconButton(
-                                  icon: Icon(Icons.drafts),
-                                  onPressed: () {},
-                                  iconSize: 18.0,
-                                ),
-                              )
-                            ],
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(
-                                right: 20.0, bottom: 15.0),
-                            child: Container(
-                              height: 120.0,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey[100],
-                                    blurRadius:
-                                        5.0, // has the effect of softening the shadow
-                                    spreadRadius:
-                                        0.0, // has the effect of extending the shadow
-                                    offset: Offset(
-                                      0.0, // horizontal, not moving right
-                                      5.0, // vertical, move down 5
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: IconButton(
+                                      icon: Icon(Icons.clear),
+                                      onPressed: () {},
+                                      iconSize: 18.0,
                                     ),
                                   )
                                 ],
                               ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Column(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          left: 14.0,
-                                          top: 10,
-                                        ),
-                                        height: 40.0,
-                                        width: 40.0,
-                                        padding: EdgeInsets.all(0.0),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                chats[index].sender.imageUrl),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10.0, 23.0, 15.0, 4.5),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: FutureBuilder<ThreadList>(
-                                                    future: threadList,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      String output;
-                                                      if (snapshot.hasData) {
-                                                        output = snapshot.data.name;
-                                                      }else if(snapshot.hasError){
-                                                        output = "Wystąpił błąd";
-                                                      }else{
-                                                        output = "Ładowanie...";
-                                                      }
-                                                      return Text(
-                                                          output,
-                                                          style: GoogleFonts
-                                                              .comfortaa(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 18.0,
-                                                            color: _unread
-                                                                ? Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodyText2
-                                                                    .color
-                                                                : Colors
-                                                                    .black87,
-                                                          ),
-                                                        );
-                                                    }),
-                                              ),
-                                              Text(
-                                                chats[index].time,
-                                                style:
-                                                    TextStyle(fontSize: 12.0),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10.0),
-                                            child: Text(
-                                              chats[index].text,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                height: 1.6,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            ),
+                            Container(
+                              height: 115.0,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: favorites.length + 1,
+                                itemBuilder: (context, i) {
+                                  if (i == 0) return SizedBox(width: 20.0);
+                                  return _active(i - 1);
+                                },
                               ),
                             ),
-                          ),
-                  ],
-                ),
-              );
+                          ],
+                        ),
+                      );
+                    }
+                    return Container(
+                      padding: EdgeInsets.only(left: 20.0, top: 10.0),
+                      child: Column(
+                        children: <Widget>[
+                          i == 1
+                              ? Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Text(
+                                        "twoje wiadomości".toUpperCase(),
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 5),
+                                      child: IconButton(
+                                        icon: Icon(Icons.drafts),
+                                        onPressed: () {},
+                                        iconSize: 18.0,
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 20.0, bottom: 15.0),
+                                  child: Container(
+                                    height: 120.0,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey[100],
+                                          blurRadius:
+                                              5.0, // has the effect of softening the shadow
+                                          spreadRadius:
+                                              0.0, // has the effect of extending the shadow
+                                          offset: Offset(
+                                            0.0, // horizontal, not moving right
+                                            5.0, // vertical, move down 5
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                left: 14.0,
+                                                top: 10,
+                                              ),
+                                              height: 40.0,
+                                              width: 40.0,
+                                              padding: EdgeInsets.all(0.0),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: new DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(chats[index]
+                                                      .sender
+                                                      .imageUrl),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10.0, 23.0, 15.0, 4.5),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        name,
+                                                        style: GoogleFonts
+                                                            .comfortaa(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18.0,
+                                                          color: _unread
+                                                              ? Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText2
+                                                                  .color
+                                                              : Colors.black87,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      time,
+                                                      style: TextStyle(
+                                                          fontSize: 12.0),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10.0),
+                                                  child: Text(
+                                                    message,
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      height: 1.6,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      ),
+                    );
+                  });
             }),
       ),
     );
