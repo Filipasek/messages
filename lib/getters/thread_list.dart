@@ -15,6 +15,7 @@ Future<ThreadList> getThreadList() async {
   if (response.statusCode == 200) {
     print('Im heree!');
     ThreadList list = new ThreadList.fromJson(json.decode(response.body));
+    print(list.threads[0].imageUrl);
 
     return list;
   } else {

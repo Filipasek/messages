@@ -195,28 +195,36 @@ class _MainState extends State<Main> {
                   itemCount: 3 + 2,
                   itemBuilder: (context, i) {
                     int index = i - 2;
-                    String name;
-                    String time;
-                    String message;
+                    String _name;
+                    String _time;
+                    String _message;
+                    String _avatarUrl;
+                    bool _unread;
                     if (snapshot.hasData) {
                       try {
-                        name = snapshot.data.threads[index].name;
-                        time = snapshot.data.threads[index].time;
-                        message = snapshot.data.threads[index].message;
+                        _name = snapshot.data.threads[index].name;
+                        _time = snapshot.data.threads[index].time;
+                        _message = snapshot.data.threads[index].message;
+                        _unread = snapshot.data.threads[index].isRead;
+                        _avatarUrl = snapshot.data.threads[index].imageUrl;
                       } catch (e) {
                         print(e);
                       }
                     } else if (snapshot.hasError) {
-                      name = "ERROR";
-                      time = "ERROR";
-                      message = "ERROR";
+                      _name = "ERROR";
+                      _time = "ERROR";
+                      _message = "ERROR";
+                      _unread = false;
+                      _avatarUrl = 'assets/images/user_placeholder.jpg';
                     } else {
-                      name = "ŁADOWANIE";
-                      time = "ŁADOWANIE";
-                      message = "ŁADOWANIE";
+                      _name = "ŁADOWANIE";
+                      _time = "ŁADOWANIE";
+                      _message = "ŁADOWANIE";
+                      _unread = false;
+                      _avatarUrl = 'assets/images/user_placeholder.jpg';
                     }
-                    bool _unread = i % 3 == 0;
-                    
+                    // bool _unread = i % 3 == 0;
+
                     if (i == 0) {
                       return Container(
                         color: Theme.of(context).primaryColor,
@@ -326,12 +334,18 @@ class _MainState extends State<Main> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 image: new DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: AssetImage(chats[index]
-                                                      .sender
-                                                      .imageUrl),
-                                                ),
+                                                    fit: BoxFit.cover,
+                                                    image: !snapshot.hasData
+                                                        ? AssetImage(_avatarUrl)
+                                                        : NetworkImage(
+                                                            _avatarUrl)),
                                               ),
+                                              // child: !snapshot.hasData ? CircleAvatar(
+                                              //   radius: 20.0,
+                                              //   backgroundImage: AssetImage(
+                                              //     _avatarUrl,
+                                              //   ),
+                                              // ) : Image.network(_avatarUrl, fit: BoxFit.cover, ),
                                             ),
                                           ],
                                         ),
@@ -347,7 +361,7 @@ class _MainState extends State<Main> {
                                                   children: <Widget>[
                                                     Expanded(
                                                       child: Text(
-                                                        name,
+                                                        _name,
                                                         style: GoogleFonts
                                                             .comfortaa(
                                                           fontWeight:
@@ -364,7 +378,7 @@ class _MainState extends State<Main> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      time,
+                                                      _time,
                                                       style: TextStyle(
                                                           fontSize: 12.0),
                                                     ),
@@ -375,7 +389,7 @@ class _MainState extends State<Main> {
                                                       const EdgeInsets.only(
                                                           top: 10.0),
                                                   child: Text(
-                                                    message,
+                                                    _message,
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
