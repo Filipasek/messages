@@ -4,6 +4,7 @@ import 'package:stream/models/message_model.dart';
 import 'package:stream/models/user_model.dart';
 import '../getters/thread_list.dart';
 import '../models/user_model.dart';
+import './login_screen.dart';
 
 class ThreadListScreen extends StatefulWidget {
   @override
@@ -96,9 +97,15 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
               backgroundColor: Theme.of(context).primaryColor,
               floating: false,
               pinned: true,
-              leading: Icon(
-                Icons.arrow_back,
-                color: Color.fromRGBO(205, 205, 205, 1),
+              leading: GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
+                ),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Color.fromRGBO(205, 205, 205, 1),
+                ),
               ),
               flexibleSpace: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
@@ -142,7 +149,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
             future: threadList,
             builder: (context, snapshot) {
               return ListView.builder(
-                  itemCount: 3 + 2,
+                  itemCount: snapshot.data.threads.length + 2,
                   itemBuilder: (context, i) {
                     int index = i - 2;
                     String _name;

@@ -49,6 +49,7 @@ class Thread{
 
 class ThreadList{
   final List<Thread> threads;
+  // var lgt;
   ThreadList({
     this.threads,
   });
@@ -58,6 +59,7 @@ class ThreadList{
     threads = parsedJson.map((i) => Thread.fromJson(i)).toList();
     return new ThreadList(
       threads: threads,
+      // lgt: threads.length
     );
   }
 }
