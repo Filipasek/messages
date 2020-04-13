@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../screens/thread_list_screen.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -70,13 +71,17 @@ class _LoginFormState extends State<LoginForm> {
                   height: 50.0,
                   margin: EdgeInsets.only(bottom: 50.0),
                   child: FlatButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text('Przetwarzanie danych'),
-                        ));
-                      }
-                    },
+                    // onPressed: () {
+                    //   if (_formKey.currentState.validate()) {
+                    //     Scaffold.of(context).showSnackBar(SnackBar(
+                    //       content: Text('Przetwarzanie danych'),
+                    //     ));
+                    //   }
+                    // },
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ThreadListScreen()),
+                    ),
                     color: Theme.of(context).accentColor,
                     padding: EdgeInsets.all(10.0),
                     child: Text(
