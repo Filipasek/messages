@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:stream/models/message_model.dart';
-// import 'package:stream/models/user_model.dart';
-// import './getters/thread_list.dart';
-// import './models/user_model.dart';
-import './screens/thread_list_screen.dart';
+import './screens/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,6 +53,7 @@ class _MainState extends State<Main> {
                 : Brightness.dark,
       ),
     );
-    return ThreadListScreen();
+    // return ThreadListScreen();
+    return LoginScreen();
   }
 }
