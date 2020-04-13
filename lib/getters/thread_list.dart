@@ -4,7 +4,6 @@ import '../models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 Future<ThreadList> getThreadList() async {
-  print('Im here!');
   final response = await http.get(
     'https://messages-server.glitch.me/threadList',
     headers: {
@@ -13,13 +12,10 @@ Future<ThreadList> getThreadList() async {
     },
   );
   if (response.statusCode == 200) {
-    print('Im heree!');
     ThreadList list = new ThreadList.fromJson(json.decode(response.body));
-    // print(list.threads[0].imageUrl);
 
     return list;
   } else {
-    print('Im hereee!');
     throw Exception('Failed to load the Thread List!');
   }
 }
