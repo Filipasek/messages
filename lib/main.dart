@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stream/screens/thread_list_screen.dart';
 import './screens/login_screen.dart';
 
 void main() {
@@ -11,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.white,
       theme: ThemeData(
         primaryColor: Colors.white,
         accentColor: Color.fromRGBO(255, 182, 185, 1),
@@ -41,6 +44,25 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+  Future<Widget> _isSomething;
+  Future<Widget> _read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'my_int_key';
+    final value = prefs.getString(key) ?? 0;
+    print('read: $value');
+    // return value;
+    if (value == 0)
+      return LoginScreen();
+    else
+      return ThreadListScreen();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isSomething = _read();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -53,7 +75,23 @@ class _MainState extends State<Main> {
                 : Brightness.dark,
       ),
     );
-    // return ThreadListScreen();
-    return LoginScreen();
+    return FutureBuilder<Widget>(
+      future: _isSomething,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return snapshot.data;
+        } else if (snapshot.hasError)
+          return LoginScreen();
+        else {
+          return Container(
+            color: Colors.white,
+            width: double.infinity,
+            height: double.infinity,
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+    // return TestScreen();
   }
 }
