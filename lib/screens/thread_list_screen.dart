@@ -149,7 +149,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
             future: threadList,
             builder: (context, snapshot) {
               return ListView.builder(
-                  itemCount: snapshot.data.threads.length + 2,
+                  itemCount:
+                      snapshot.hasData ? snapshot.data.threads.length + 2 : 1,
                   itemBuilder: (context, i) {
                     int index = i - 2;
                     String _name;
@@ -174,11 +175,19 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                       _unread = false;
                       _avatarUrl = 'assets/images/user_placeholder.jpg';
                     } else {
-                      _name = "ŁADOWANIE";
-                      _time = "ŁADOWANIE";
-                      _message = "ŁADOWANIE";
-                      _unread = false;
-                      _avatarUrl = 'assets/images/user_placeholder.jpg';
+                      // _name = "ŁADOWANIE";
+                      // _time = "ŁADOWANIE";
+                      // _message = "ŁADOWANIE";
+                      // _unread = false;
+                      // _avatarUrl = 'assets/images/user_placeholder.jpg';
+                      return Container(
+                        height: 4.0,
+                        child: LinearProgressIndicator(
+                          backgroundColor: Color.fromRGBO(250, 211, 207, 1),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).accentColor),
+                        ),
+                      );
                     }
                     // bool _unread = i % 3 == 0;
 
