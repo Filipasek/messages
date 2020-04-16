@@ -4,8 +4,8 @@ An app written in Flutter that allows its users to use multiple messaging servic
 
 ## Current state
 
-Currently this app is unusable.
+Currently this app can display thread list with messages but can't reply or anything else (yes, you can log in into your own account)
 
 ### Release date
 
-Unknown. Not soon.
+Unknown. Probably by summer.
