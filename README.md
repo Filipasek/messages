@@ -14,6 +14,6 @@ Unknown. Probably by summer.
 
 As soon as it gets into usable state, it'll be available in Google's Play Store and Huawei AppGallery. 
 
-Support for Web is coming, too! Mac, Linux and Windows support depends entirely on [Flutter team](https://github.com/flutter).
+[Support for Web](https://flutter.dev/web) is coming, too! [Mac, Linux and Windows support](https://flutter.dev/desktop) depends entirely on [Flutter team](https://github.com/flutter).
 
 Unfortunately, Apple's AppStore is too expensive and I won't upload this app there. But you can compile this app yourself (or ask me to) and force-install it.
