@@ -11,12 +11,13 @@ _save(String _value) async {
   print('saved $value');
 }
 
-
 Future<String> getCredentials(_mail, _password, context) async {
   print(_mail);
   print(_password);
-  if(_password == null || _mail == null) throw Exception("Mail i hasło nie mogą być puste!");
-  if(_password.length < 6 || !_mail.contains('@')) throw Exception("Nieprawidłowe dane!!!!");
+  if (_password == null || _mail == null)
+    throw Exception("Mail i hasło nie mogą być puste!");
+  if (_password.length < 6 || !_mail.contains('@'))
+    throw Exception("Nieprawidłowe dane!!!!");
   final String _query = '{"email": "$_mail","password": "$_password"}';
   final response = await http.get(
     'https://messages-server.glitch.me/createCredentials',
@@ -39,4 +40,7 @@ Future<String> getCredentials(_mail, _password, context) async {
   }else {
     throw Exception('Failed to load the Credentials!');
   }
+  // return Future.delayed(Duration(seconds: 1), () {
+  //   return "401";
+  // });
 }

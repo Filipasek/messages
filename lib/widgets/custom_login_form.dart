@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../getters/credentials.dart';
 
@@ -10,13 +9,16 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  bool error_401 = false;
+  bool loading = false;
+  // bool error_401 = false;
+  String _error401Email = "a";
+  String _error401Password = "a";
   String _email;
   String _password;
   @override
   Widget build(BuildContext context) {
     return Form(
-      autovalidate: true,
+      // autovalidate: true,
       key: _formKey,
       child: new Theme(
         data: new ThemeData(
@@ -56,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
                       validator: (input) {
                         if (!input.contains('@')) {
                           return 'Podaj prawdziwy mail';
-                        } else if (error_401) {
+                        } else if (_error401Email != null && _error401Email == input) {
                           return 'Nieprawidłowy mail';
                         } else {
                           return null;
@@ -77,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                       validator: (input) {
                         if (input.length < 6) {
                           return 'Hasło musi mieć >= 6 znaków';
-                        } else if (error_401) {
+                        } else if (_error401Password != null && _error401Password == input) {
                           return 'Nieprawidłowe hasło';
                         } else {
                           return null;
@@ -94,23 +96,42 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
-                          if (getCredentials(_email, _password, context) ==
-                              "401") {
-                            setState(() {
-                              error_401 = true;
-                            });
-                          }
+                          setState(() {
+                            loading = true;
+                          });
+                          getCredentials(_email, _password, context)
+                              .then((response) {
+                            if (response == "401") {
+                              setState(() {
+                                loading = false;
+                                _error401Email = _email;
+                                _error401Password = _password;
+                                _formKey.currentState.validate();
+                              });
+                            }
+                          });
                         }
                       },
                       color: Theme.of(context).accentColor,
                       padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        "Wszystko Gotowe!",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        ),
-                      ),
+                      child: !loading
+                          ? Text(
+                              "Wszystko Gotowe!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                              ),
+                            )
+                          : Container(
+                              height: 30.0,
+                              width: 30.0,
+                              child: CircularProgressIndicator(
+                                // backgroundColor: Colors.blue,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color.fromRGBO(245, 88, 123, 1),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                 ],

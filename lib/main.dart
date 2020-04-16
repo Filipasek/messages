@@ -53,6 +53,7 @@ class _MainState extends State<Main> {
       return LoginScreen();
     else
       return ThreadListScreen();
+    // return LoginScreen();
   }
 
   @override
@@ -69,7 +70,7 @@ class _MainState extends State<Main> {
             : Brightness.dark;
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+        statusBarColor: Theme.of(context).primaryColor,
         statusBarIconBrightness: brightness,
         systemNavigationBarColor: Theme.of(context).primaryColor,
         systemNavigationBarIconBrightness: brightness,
