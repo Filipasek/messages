@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../getters/credentials.dart';
 
@@ -15,7 +16,6 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-
       autovalidate: true,
       key: _formKey,
       child: new Theme(
@@ -50,8 +50,6 @@ class _LoginFormState extends State<LoginForm> {
                       decoration: InputDecoration(
                         labelText: "Adres email",
                         fillColor: Colors.grey,
-                        alignLabelWithHint: true,
-                        hintText: "Oczywiście taki, jak na Messengerze",
                         border: OutlineInputBorder(),
                       ),
                       // validator: (input) => !input.contains('@') ? 'Podaj prawdziwy mail' : null,
@@ -70,26 +68,23 @@ class _LoginFormState extends State<LoginForm> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 40.0),
                     child: TextFormField(
-                        showCursor: false,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Hasło",
-                          alignLabelWithHint: true,
-                          hintText: "Oczywiście takie, jak na Messengerze",
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (input) {
-                          if(input.length < 6){
+                      showCursor: false,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Hasło",
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (input) {
+                        if (input.length < 6) {
                           return 'Hasło musi mieć >= 6 znaków';
-                        }else if(error_401){
+                        } else if (error_401) {
                           return 'Nieprawidłowe hasło';
-                        }else{
+                        } else {
                           return null;
                         }
-                        },
-                        onSaved: (input) => _password = input,
-                        
-                        ),
+                      },
+                      onSaved: (input) => _password = input,
+                    ),
                   ),
                   Container(
                     width: double.infinity,
@@ -97,10 +92,14 @@ class _LoginFormState extends State<LoginForm> {
                     margin: EdgeInsets.only(bottom: 50.0),
                     child: FlatButton(
                       onPressed: () {
-                        if (getCredentials(_email, _password, context) == "401") {
-                          setState(() {
-                            error_401 = true;
-                          });
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          if (getCredentials(_email, _password, context) ==
+                              "401") {
+                            setState(() {
+                              error_401 = true;
+                            });
+                          }
                         }
                       },
                       color: Theme.of(context).accentColor,

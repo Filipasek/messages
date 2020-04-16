@@ -63,14 +63,16 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    var brightness =
+        MediaQuery.of(context).platformBrightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark;
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
+        statusBarIconBrightness: brightness,
         systemNavigationBarColor: Theme.of(context).primaryColor,
-        systemNavigationBarIconBrightness:
-            MediaQuery.of(context).platformBrightness == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark,
+        systemNavigationBarIconBrightness: brightness,
       ),
     );
     return FutureBuilder<Widget>(

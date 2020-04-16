@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/models/message_model.dart';
 import 'package:stream/models/user_model.dart';
 import '../getters/thread_list.dart';
@@ -86,6 +87,16 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _remove() async {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'my_credentials_key';
+      prefs.remove(key);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => LoginScreen()),
+      );
+    }
+
     return Scaffold(
       extendBody: true,
       backgroundColor: Theme.of(context).primaryColor,
@@ -107,6 +118,55 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                   color: Color.fromRGBO(205, 205, 205, 1),
                 ),
               ),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.exit_to_app),
+                    // onPressed: () => _remove(),
+                    onPressed: () {
+                      return showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Wylogować?"),
+                              content: Text(
+                                "Nastąpi wylogowanie się z aplikacji i konieczne będzie ponowne zalogowanie w celu ponownego korzystania z aplikacji.",
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Nie"),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                                FlatButton(
+                                  child: Text("Tak"),
+                                  onPressed: () {
+                                    return showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text("Na pewno?"),
+                                            content: Text(
+                                              "Nastąpi wylogowanie się z aplikacji i konieczne będzie ponowne zalogowanie w celu ponownego korzystania z aplikacji.\nNie nadużywaj tego - Facebook może zablokować konto i potrzebne będzie potwierdzanie tożsamości.",
+                                            ),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: Text("Nie"),
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                              ),
+                                              FlatButton(
+                                                child: Text("Tak"),
+                                                onPressed: () => _remove(),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    })
+              ],
               flexibleSpace: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   double percent = ((constraints.maxHeight - kToolbarHeight) *
