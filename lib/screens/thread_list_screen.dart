@@ -139,6 +139,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                 FlatButton(
                                   child: Text("Tak"),
                                   onPressed: () {
+                                    Navigator.of(context).pop();
                                     return showDialog(
                                         context: context,
                                         builder: (context) {
@@ -220,11 +221,13 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                     bool _unread;
                     if (snapshot.hasData) {
                       try {
-                        _name = snapshot.data.threads[index].name;
-                        _time = snapshot.data.threads[index].time;
-                        _message = snapshot.data.threads[index].message;
-                        _unread = snapshot.data.threads[index].isRead;
-                        _avatarUrl = snapshot.data.threads[index].imageUrl;
+                        if (index >= 0) {
+                          _name = snapshot.data.threads[index].name;
+                          _time = snapshot.data.threads[index].time;
+                          _message = snapshot.data.threads[index].message;
+                          _unread = snapshot.data.threads[index].isRead;
+                          _avatarUrl = snapshot.data.threads[index].imageUrl;
+                        }
                       } catch (e) {
                         print(e);
                       }
