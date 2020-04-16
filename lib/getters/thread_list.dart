@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 _read() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'my_int_key';
+    final key = 'my_credentials_key';
     final value = prefs.getString(key) ?? 0;
     // print('read: $value');
     return value;

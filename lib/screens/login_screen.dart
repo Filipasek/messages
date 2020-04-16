@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         body: Container(
-          padding: EdgeInsets.fromLTRB(40.0, 0.0, 40.0, 0.0),
           child: LoginForm(),
         ),
       ),

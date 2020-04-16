@@ -47,10 +47,8 @@ class _MainState extends State<Main> {
   Future<Widget> _isSomething;
   Future<Widget> _read() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'my_int_key';
+    final key = 'my_credentials_key';
     final value = prefs.getString(key) ?? 0;
-    print('read: $value');
-    // return value;
     if (value == 0)
       return LoginScreen();
     else
@@ -84,10 +82,9 @@ class _MainState extends State<Main> {
           return LoginScreen();
         else {
           return Container(
-            color: Colors.white,
+            color: Theme.of(context).primaryColor,
             width: double.infinity,
             height: double.infinity,
-            child: CircularProgressIndicator(),
           );
         }
       },
