@@ -37,6 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
         }
       },
       child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
         body: Container(
           child: RegisterForm(),
         ),

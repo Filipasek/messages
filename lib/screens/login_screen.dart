@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
         body: Container(
           child: LoginForm(),
         ),

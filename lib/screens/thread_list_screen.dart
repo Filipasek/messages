@@ -70,11 +70,13 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
         width: 75.0,
         height: 100.0,
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          // color: Theme.of(context).textTheme.headline4.color,
+          color: Theme.of(context).textTheme.headline4.color.withOpacity(0.3),
           borderRadius: BorderRadius.circular(6.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey[100],
+              // color: Colors.grey[100],
+              color: Theme.of(context).textTheme.headline6.color,
               blurRadius: 5.0, // has the effect of softening the shadow
               spreadRadius: 0.0, // has the effect of extending the shadow
               offset: Offset(
@@ -86,9 +88,12 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
         ),
         child: Column(
           children: <Widget>[
-            CircleAvatar(
-              radius: 20.0,
-              backgroundImage: AssetImage(favorites[i].imageUrl),
+            Container(
+              padding: EdgeInsets.only(top: 4.0),
+              child: CircleAvatar(
+                radius: 20.0,
+                backgroundImage: AssetImage(favorites[i].imageUrl),
+              ),
             ),
             Expanded(
               child: Container(
@@ -104,7 +109,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 1.0),
+              padding: EdgeInsets.only(bottom: 4.0),
               child: Text(
                 favorites[i].service,
                 style: TextStyle(
@@ -145,25 +150,28 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
               backgroundColor: Theme.of(context).primaryColor,
               floating: false,
               pinned: true,
-              leading: GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => LoginScreen()),
-                ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Color.fromRGBO(205, 205, 205, 1),
-                ),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginScreen()),
+                  );
+                },
+                icon: Icon(Icons.arrow_back),
+                color: Theme.of(context).iconTheme.color,
               ),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen()));
+                  color: Theme.of(context).iconTheme.color,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => SearchScreen()));
                   },
                 ),
                 IconButton(
                     icon: Icon(Icons.exit_to_app),
+                    color: Theme.of(context).iconTheme.color,
                     // onPressed: () => _remove(),
                     onPressed: () {
                       return showDialog(
@@ -235,7 +243,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                               fontSize: 23.0,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.7,
-                              color: Colors.black,
+                              color:
+                                  Theme.of(context).textTheme.headline5.color,
                             ),
                           ),
                           offset: Offset(
@@ -323,6 +332,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                       padding: const EdgeInsets.only(right: 5),
                                       child: IconButton(
                                         icon: Icon(Icons.clear),
+                                        color:
+                                            Theme.of(context).iconTheme.color,
                                         onPressed: () {},
                                         iconSize: 18.0,
                                       ),
@@ -366,6 +377,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                             const EdgeInsets.only(right: 5),
                                         child: IconButton(
                                           icon: Icon(Icons.drafts),
+                                          color:
+                                              Theme.of(context).iconTheme.color,
                                           onPressed: () {},
                                           iconSize: 18.0,
                                         ),
@@ -378,12 +391,20 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                     child: Container(
                                       height: 120.0,
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor,
+                                        // color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .color,
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey[100],
+                                            // color: Colors.grey[100],
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .headline6
+                                                .color,
                                             blurRadius:
                                                 5.0, // has the effect of softening the shadow
                                             spreadRadius:
@@ -451,10 +472,12 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                                                 ? Theme.of(
                                                                         context)
                                                                     .textTheme
-                                                                    .bodyText2
+                                                                    .headline5
                                                                     .color
-                                                                : Colors
-                                                                    .black87,
+                                                                : Theme.of(
+                                                                        context)
+                                                                    .iconTheme
+                                                                    .color,
                                                           ),
                                                         ),
                                                       ),

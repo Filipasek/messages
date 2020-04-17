@@ -52,25 +52,29 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).primaryColor,
           title: TextField(
             controller: _searchController,
             decoration: InputDecoration(
+              
+              fillColor: Theme.of(context).textTheme.headline4.color,
               contentPadding: EdgeInsets.symmetric(
                 vertical: 15.0,
               ),
               border: InputBorder.none,
-              hintText: 'Search',
+              hintText: 'Szukaj',
               prefixIcon: Icon(
                 Icons.search,
                 size: 30.0,
-                color: Color.fromRGBO(255, 182, 185, 1),
+                color: Theme.of(context).accentColor,
               ),
               suffixIcon: IconButton(
                 icon: Icon(Icons.clear),
                 onPressed: _clearSearch,
-                color: Color.fromRGBO(255, 182, 185, 1),
+                color: Theme.of(context).accentColor,
+                
               ),
               filled: true,
             ),
