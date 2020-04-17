@@ -6,6 +6,8 @@ import '../models/user_model.dart';
 // import 'package:instagram/screens/profile_screen.dart';
 import '../services/database_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
+import '../models/user_data.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -25,15 +27,17 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundImage: AssetImage('assets/images/user_placeholder.jpg'),
       ),
       title: Text(user.name),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          // builder: (_) => ProfileScreen(
-          //   userId: user.id,
-          // ),
-          builder: (_) => ThreadListScreen(),
-        ),
-      ),
+      // onTap: () => Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (_) => ThreadListScreen(),
+      //   ),
+      // ),
+      onTap: (){
+        // String me = Provider.of<UserData>(context).currentUserId;
+        // print(me);
+        print(DatabaseService.getChatId(Provider.of<UserData>(context, listen: false).currentUserId, user));
+      },
     );
   }
 
