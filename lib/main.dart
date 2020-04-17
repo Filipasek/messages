@@ -70,9 +70,9 @@ class _MainState extends State<Main> {
             : Brightness.dark;
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).primaryColor,
+        statusBarColor: Colors.transparent,
         statusBarIconBrightness: brightness,
-        systemNavigationBarColor: Theme.of(context).primaryColor,
+        systemNavigationBarColor: Colors.transparent,
         systemNavigationBarIconBrightness: brightness,
       ),
     );

@@ -13,6 +13,7 @@ _read() async {
   }
 
 Future<ThreadList> getThreadList() async {
+  print("here");
   final credentials = await _read();
   final response = await http.get(
     'https://messages-server.glitch.me/threadList',
@@ -22,6 +23,8 @@ Future<ThreadList> getThreadList() async {
     },
   );
   if (response.statusCode == 200) {
+  print("here 22");
+
     ThreadList list = new ThreadList.fromJson(json.decode(response.body));
 
     return list;
