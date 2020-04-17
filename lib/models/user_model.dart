@@ -1,10 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
+  final String id;
+  final String name;
+  final String imageUrl;
+  final String email;
+  final String bio;
+  User({
+    this.id,
+    this.name,
+    this.imageUrl,
+    this.email,
+    this.bio,
+  });
+  factory User.fromDoc(DocumentSnapshot doc) {
+    return User(
+      id: doc.documentID,
+      name: doc["name"],
+      imageUrl: doc['profileImageUrl'],
+      email: doc["email"],
+      bio: doc["bio"] ?? '', //if equal to null [prevents from crushing]
+    );
+  }
+}
+
+class Somebody {
   final int id;
   final String name;
   final String imageUrl;
   final String service;
 
-  User({
+  Somebody({
     this.id,
     this.name,
     this.imageUrl,

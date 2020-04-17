@@ -1,7 +1,7 @@
 import 'user_model.dart';
 
 class Message {
-  final User sender;
+  final Somebody sender;
   final String
       time; // Would usually be type DateTime or Firebase Timestamp in production apps
   final String text;
@@ -18,24 +18,24 @@ class Message {
 }
 
 // YOU - current user
-final User currentUser =
-    User(id: 0, name: 'Current User', imageUrl: 'assets/images/greg.jpg');
+final Somebody currentUser =
+    Somebody(id: 0, name: 'Current User', imageUrl: 'assets/images/greg.jpg');
 
 // USERS
-final User greg = User(id: 1, name: 'Greg Johnson', imageUrl: 'assets/images/greg.jpg', service: 'Messenger');
-final User james =
-    User(id: 2, name: 'James Alderson', imageUrl: 'assets/images/james.jpg', service: 'SMS');
-final User john = User(id: 3, name: 'John Depp', imageUrl: 'assets/images/john.jpg', service: 'Messenger');
-final User olivia =
-    User(id: 4, name: 'Olivia Birdway', imageUrl: 'assets/images/olivia.jpg', service: 'Messenger');
-final User sam = User(id: 5, name: 'Sam Aswell', imageUrl: 'assets/images/sam.jpg', service: 'Viber');
-final User sophia =
-    User(id: 6, name: 'Sophia Maxie', imageUrl: 'assets/images/sophia.jpg', service: 'Whatsupp');
-final User steven =
-    User(id: 7, name: 'Steven Sopel', imageUrl: 'assets/images/steven.jpg', service: 'Telegram');
+final Somebody greg = Somebody(id: 1, name: 'Greg Johnson', imageUrl: 'assets/images/greg.jpg', service: 'Messenger');
+final Somebody james =
+    Somebody(id: 2, name: 'James Alderson', imageUrl: 'assets/images/james.jpg', service: 'SMS');
+final Somebody john = Somebody(id: 3, name: 'John Depp', imageUrl: 'assets/images/john.jpg', service: 'Messenger');
+final Somebody olivia =
+    Somebody(id: 4, name: 'Olivia Birdway', imageUrl: 'assets/images/olivia.jpg', service: 'Messenger');
+final Somebody sam = Somebody(id: 5, name: 'Sam Aswell', imageUrl: 'assets/images/sam.jpg', service: 'Viber');
+final Somebody sophia =
+    Somebody(id: 6, name: 'Sophia Maxie', imageUrl: 'assets/images/sophia.jpg', service: 'Whatsupp');
+final Somebody steven =
+    Somebody(id: 7, name: 'Steven Sopel', imageUrl: 'assets/images/steven.jpg', service: 'Telegram');
 
 // FAVORITE CONTACTS
-List<User> favorites = [sam, steven, olivia, john, greg];
+List<Somebody> favorites = [sam, steven, olivia, john, greg];
 
 // EXAMPLE CHATS ON HOME SCREEN
 List<Message> chats = [

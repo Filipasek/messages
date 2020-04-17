@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../getters/credentials.dart';
 import '../screens/signup_screen.dart';
 import '../services/auth_service.dart';
+import '../screens/thread_list_screen.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -126,6 +127,11 @@ class _LoginFormState extends State<LoginForm> {
                                 loading = true;
                               });
                               AuthService.login(_email, _password);
+                              //                     Navigator.of(context).pushAndRemoveUntil(
+                              // MaterialPageRoute(builder: (context) => LoginScreen()),
+                              // (Route<dynamic> route) => false);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ThreadListScreen()));
                             }
                           },
                           color: Theme.of(context).accentColor,

@@ -6,6 +6,8 @@ import 'package:stream/models/user_model.dart';
 import '../getters/thread_list.dart';
 import '../models/user_model.dart';
 import './login_screen.dart';
+import '../services/auth_service.dart';
+import './search_screen.dart';
 
 class ThreadListScreen extends StatefulWidget {
   @override
@@ -119,13 +121,17 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
   @override
   Widget build(BuildContext context) {
     _remove() async {
-      final prefs = await SharedPreferences.getInstance();
-      final key = 'my_credentials_key';
-      prefs.remove(key);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => LoginScreen()),
-      );
+      // final prefs = await SharedPreferences.getInstance();
+      // final key = 'my_credentials_key';
+      // prefs.remove(key);
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (_) => LoginScreen()),
+      // );
+      await AuthService.logout();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (Route<dynamic> route) => false);
     }
 
     return Scaffold(
@@ -150,6 +156,12 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                 ),
               ),
               actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen()));
+                  },
+                ),
                 IconButton(
                     icon: Icon(Icons.exit_to_app),
                     // onPressed: () => _remove(),
@@ -243,12 +255,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
           //   saveThreadList();
           // },
           onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2), () {
-            // YToast.show(context: context, msg: "Dropdown refresh");
-            // do something
-            //getData();
-          });
-        },
+            await Future.delayed(Duration(seconds: 2), () {});
+          },
           key: _refreshIndicatorKey,
           child: FutureBuilder(
               future: threadList,
