@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/screens/thread_list_screen.dart';
+import 'package:stream/widgets/custom_signup_form.dart';
 import './screens/login_screen.dart';
+import './screens/signup_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,11 +51,11 @@ class _MainState extends State<Main> {
     final prefs = await SharedPreferences.getInstance();
     final key = 'my_credentials_key';
     final value = prefs.getString(key) ?? 0;
-    if (value == 0)
-      return LoginScreen();
-    else
-      return ThreadListScreen();
-    // return LoginScreen();
+    // if (value == 0)
+    //   return LoginScreen();
+    // else
+    //   return ThreadListScreen();
+    return SignupScreen();
   }
 
   @override

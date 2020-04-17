@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/screens/thread_list_screen.dart';
-import '../widgets/custom_login_form.dart';
+import '../widgets/custom_signup_form.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   Future<void> _checkIfCorrectScreen() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'my_credentials_key';
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         body: Container(
-          child: LoginForm(),
+          child: RegisterForm(),
         ),
       ),
     );

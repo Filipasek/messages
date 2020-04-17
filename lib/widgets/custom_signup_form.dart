@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../getters/credentials.dart';
-import '../screens/signup_screen.dart';
+import 'package:stream/screens/login_screen.dart';
 import '../services/auth_service.dart';
 
-class LoginForm extends StatefulWidget {
+class RegisterForm extends StatefulWidget {
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   // bool error_401 = false;
@@ -17,6 +16,7 @@ class _LoginFormState extends State<LoginForm> {
   String _error401Password = "a";
   String _email;
   String _password;
+  String _nickname;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -45,6 +45,30 @@ class _LoginFormState extends State<LoginForm> {
                         fontSize: 60.0,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                    child: TextFormField(
+                      showCursor: false,
+                      decoration: InputDecoration(
+                        labelText: "Nazwa",
+                        fillColor: Colors.grey,
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (input) => input.length < 4
+                          ? 'Nick musi mieć >= 4 znaków'
+                          : null,
+                      // validator: (input) {
+                      //   if (!input.contains('@')) {
+                      //     return 'Podaj prawdziwy mail';
+                      //   } else if (_error401Email != null && _error401Email == input) {
+                      //     return 'Nieprawidłowy mail';
+                      //   } else {
+                      //     return null;
+                      //   }
+                      // },
+                      onSaved: (input) => _nickname = input,
                     ),
                   ),
                   Padding(
@@ -101,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => SignupScreen()),
+                            MaterialPageRoute(builder: (_) => LoginScreen()),
                           );
                         },
                         child: Container(
@@ -109,7 +133,7 @@ class _LoginFormState extends State<LoginForm> {
                           width: 120.0,
                           child: Center(
                             child: Text(
-                              "Zarejestruj",
+                              "Zaloguj",
                               style: TextStyle(
                                 color: Theme.of(context).accentColor,
                               ),
@@ -125,7 +149,12 @@ class _LoginFormState extends State<LoginForm> {
                               setState(() {
                                 loading = true;
                               });
-                              AuthService.login(_email, _password);
+                              AuthService.signUpUser(
+                                context,
+                                _nickname,
+                                _email,
+                                _password,
+                              );
                             }
                           },
                           color: Theme.of(context).accentColor,
