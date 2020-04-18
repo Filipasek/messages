@@ -8,6 +8,7 @@ import '../services/database_services.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import '../models/user_data.dart';
+import './messages_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -33,10 +34,16 @@ class _SearchScreenState extends State<SearchScreen> {
       //     builder: (_) => ThreadListScreen(),
       //   ),
       // ),
-      onTap: (){
-        // String me = Provider.of<UserData>(context).currentUserId;
-        // print(me);
-        print(DatabaseService.getChatId(Provider.of<UserData>(context, listen: false).currentUserId, user));
+      onTap: () {
+        String me = Provider.of<UserData>(context, listen: false).currentUserId;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => MessagesScreen(
+              chatId: DatabaseService.getChatId(me, user), user: user,
+            ),
+          ),
+        );
       },
     );
   }
@@ -52,13 +59,12 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: TextField(
             controller: _searchController,
             decoration: InputDecoration(
-              
               fillColor: Theme.of(context).textTheme.headline4.color,
               contentPadding: EdgeInsets.symmetric(
                 vertical: 15.0,
@@ -74,7 +80,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 icon: Icon(Icons.clear),
                 onPressed: _clearSearch,
                 color: Theme.of(context).accentColor,
-                
               ),
               filled: true,
             ),
