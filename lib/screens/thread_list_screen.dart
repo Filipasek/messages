@@ -133,10 +133,10 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
       //   context,
       //   MaterialPageRoute(builder: (_) => LoginScreen()),
       // );
-      await AuthService.logout();
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-          (Route<dynamic> route) => false);
+      AuthService.logout(context);
+      // Navigator.of(context).pushAndRemoveUntil(
+      //     MaterialPageRoute(builder: (context) => LoginScreen()),
+      //     (Route<dynamic> route) => false);
     }
 
     return Scaffold(
@@ -151,12 +151,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
               floating: false,
               pinned: true,
               leading: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => LoginScreen()),
-                  );
-                },
+                onPressed: () {},
                 icon: Icon(Icons.arrow_back),
                 color: Theme.of(context).iconTheme.color,
               ),

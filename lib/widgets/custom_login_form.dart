@@ -133,12 +133,10 @@ class _LoginFormState extends State<LoginForm> {
                             setState(() {
                               loading = true;
                             });
-                            AuthService.login(_email, _password);
+                            AuthService.login(context, _email, _password);
                             //                     Navigator.of(context).pushAndRemoveUntil(
                             // MaterialPageRoute(builder: (context) => LoginScreen()),
-                            // (Route<dynamic> route) => false);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ThreadListScreen()));
+                            // (Route<dynamic> route) => false);;
                           }
                         },
                         color: Theme.of(context).accentColor,

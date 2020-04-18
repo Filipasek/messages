@@ -28,12 +28,6 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundImage: AssetImage('assets/images/user_placeholder.jpg'),
       ),
       title: Text(user.name),
-      // onTap: () => Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (_) => ThreadListScreen(),
-      //   ),
-      // ),
       onTap: () {
         String me = Provider.of<UserData>(context, listen: false).currentUserId;
         Navigator.push(
