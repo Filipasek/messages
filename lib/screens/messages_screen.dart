@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:stream/models/user_data.dart';
 import '../models/user_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       new TextEditingController();
   final ScrollController listScrollController = new ScrollController();
   _buildMessage(DocumentSnapshot message) {
-    bool isMe = widget.user.id == message['idFrom'];
+    bool isMe = widget.user.id != message['idFrom'];
     timeago.setLocaleMessages('pl', timeago.PlMessages());
 
     final msg = Container(
@@ -76,9 +75,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
       ),
     );
-    if (isMe) {
-      return msg;
-    }
+    return msg;
     // return Row(
     //   children: <Widget>[
     //     msg,

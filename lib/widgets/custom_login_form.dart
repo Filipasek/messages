@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../getters/credentials.dart';
 import '../screens/signup_screen.dart';
 import '../services/auth_service.dart';
-import '../screens/thread_list_screen.dart';
 
 class LoginForm extends StatefulWidget {
   @override

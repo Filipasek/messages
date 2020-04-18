@@ -1,11 +1,8 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:stream/screens/thread_list_screen.dart';
 import '../models/user_model.dart';
-// import 'package:instagram/screens/profile_screen.dart';
 import '../services/database_services.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import '../models/user_data.dart';
 import './messages_screen.dart';
@@ -20,30 +17,32 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<QuerySnapshot> _users;
   _buildUserTile(User user) {
     String preUser = user.name;
-    String userName = user.id == Provider.of<UserData>(context, listen: false).currentUserId ? '$preUser (Ja)' : '$preUser';
-      return ListTile(
-        leading: CircleAvatar(
-          radius: 20.0,
-          // backgroundImage: user.imageUrl.isEmpty
-          //     ? AssetImage('assets/images/user_placeholder.jpg')
-          //     : CachedNetworkImageProvider(user.imageUrl),
-          backgroundImage: AssetImage('assets/images/user_placeholder.jpg'),
-        ),
-        title: Text(userName),
-        onTap: () {
-          String me =
-              Provider.of<UserData>(context, listen: false).currentUserId;
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => MessagesScreen(
-                chatId: DatabaseService.getChatId(me, user),
-                user: user,
-              ),
+    String userName =
+        user.id == Provider.of<UserData>(context, listen: false).currentUserId
+            ? '$preUser (Ja)'
+            : '$preUser';
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 20.0,
+        // backgroundImage: user.imageUrl.isEmpty
+        //     ? AssetImage('assets/images/user_placeholder.jpg')
+        //     : CachedNetworkImageProvider(user.imageUrl),
+        backgroundImage: AssetImage('assets/images/user_placeholder.jpg'),
+      ),
+      title: Text(userName),
+      onTap: () {
+        String me = Provider.of<UserData>(context, listen: false).currentUserId;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => MessagesScreen(
+              chatId: DatabaseService.getChatId(me, user),
+              user: user,
             ),
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
   }
 
   _clearSearch() {

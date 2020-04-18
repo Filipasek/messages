@@ -5,7 +5,6 @@ import 'package:stream/models/message_model.dart';
 import 'package:stream/models/user_model.dart';
 import '../getters/thread_list.dart';
 import '../models/user_model.dart';
-import './login_screen.dart';
 import '../services/auth_service.dart';
 import './search_screen.dart';
 
@@ -27,37 +26,18 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   bool isCompleted;
-  // Future<void> _checkIfCorrectScreen() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final key = 'my_credentials_key';
-  //   final value = prefs.getString(key) ?? 0;
-  //   if (value == null || value == 0) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (_) => LoginScreen()),
-  //     );
-  //   }
-  // }
 
   Future<ThreadList> threadList;
-  Future<String> saveThreadList() async {
+  Future<void> saveThreadList() async {
     threadList = null;
-    // bool done = false;
-    // print(threadList);
     setState(() {
-      // threadList = getThreadList().whenComplete((response){done = true; return response;});
       threadList = getThreadList();
     });
-    // print(threadList);
-    // return "success";
-    // Future.delayed(Duration(seconds: 2), () => "success");
     isCompleted = true;
   }
 
   @override
   void initState() {
-    // _checkIfCorrectScreen();
-    // threadList = getThreadList();
     saveThreadList();
     super.initState();
   }

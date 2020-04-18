@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:stream/models/message_model.dart';
 import '../models/user_model.dart';
 import '../utilities/constants.dart';
-import 'package:provider/provider.dart';
-import '../models/user_data.dart';
 
 class DatabaseService {
   static String getChatId(String meId, User user){
@@ -12,7 +8,7 @@ class DatabaseService {
     if(meId.hashCode <= userId.hashCode){
       return '$meId-$userId';
     }else{
-      return '$meId-$userId';
+      return '$userId-$meId';
     }
   }
 

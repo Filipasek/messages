@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stream/screens/thread_list_screen.dart';
 import '../widgets/custom_signup_form.dart';
 
 class SignupScreen extends StatefulWidget {
