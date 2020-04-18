@@ -19,27 +19,31 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = TextEditingController();
   Future<QuerySnapshot> _users;
   _buildUserTile(User user) {
-    return ListTile(
-      leading: CircleAvatar(
-        radius: 20.0,
-        // backgroundImage: user.imageUrl.isEmpty
-        //     ? AssetImage('assets/images/user_placeholder.jpg')
-        //     : CachedNetworkImageProvider(user.imageUrl),
-        backgroundImage: AssetImage('assets/images/user_placeholder.jpg'),
-      ),
-      title: Text(user.name),
-      onTap: () {
-        String me = Provider.of<UserData>(context, listen: false).currentUserId;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => MessagesScreen(
-              chatId: DatabaseService.getChatId(me, user), user: user,
+    String preUser = user.name;
+    String userName = user.id == Provider.of<UserData>(context, listen: false).currentUserId ? '$preUser (Ja)' : '$preUser';
+      return ListTile(
+        leading: CircleAvatar(
+          radius: 20.0,
+          // backgroundImage: user.imageUrl.isEmpty
+          //     ? AssetImage('assets/images/user_placeholder.jpg')
+          //     : CachedNetworkImageProvider(user.imageUrl),
+          backgroundImage: AssetImage('assets/images/user_placeholder.jpg'),
+        ),
+        title: Text(userName),
+        onTap: () {
+          String me =
+              Provider.of<UserData>(context, listen: false).currentUserId;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MessagesScreen(
+                chatId: DatabaseService.getChatId(me, user),
+                user: user,
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
   }
 
   _clearSearch() {
