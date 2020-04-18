@@ -5,7 +5,7 @@ import 'package:stream/screens/thread_list_screen.dart';
 import '../models/user_model.dart';
 // import 'package:instagram/screens/profile_screen.dart';
 import '../services/database_services.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import '../models/user_data.dart';
 

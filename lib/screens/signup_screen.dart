@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/screens/thread_list_screen.dart';
 import '../widgets/custom_signup_form.dart';
 
@@ -9,17 +9,17 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  Future<void> _checkIfCorrectScreen() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'my_credentials_key';
-    final value = prefs.getString(key) ?? 0;
-    if (value != null && value != 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => ThreadListScreen()),
-      );
-    }
-  }
+  // Future<void> _checkIfCorrectScreen() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final key = 'my_credentials_key';
+  //   final value = prefs.getString(key) ?? 0;
+  //   if (value != null && value != 0) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => ThreadListScreen()),
+  //     );
+  //   }
+  // }
 
   // @override
   // void initState() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/models/message_model.dart';
 import 'package:stream/models/user_model.dart';
 import '../getters/thread_list.dart';
@@ -27,17 +27,17 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   bool isCompleted;
-  Future<void> _checkIfCorrectScreen() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'my_credentials_key';
-    final value = prefs.getString(key) ?? 0;
-    if (value == null || value == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => LoginScreen()),
-      );
-    }
-  }
+  // Future<void> _checkIfCorrectScreen() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final key = 'my_credentials_key';
+  //   final value = prefs.getString(key) ?? 0;
+  //   if (value == null || value == 0) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => LoginScreen()),
+  //     );
+  //   }
+  // }
 
   Future<ThreadList> threadList;
   Future<String> saveThreadList() async {
@@ -56,7 +56,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
 
   @override
   void initState() {
-    _checkIfCorrectScreen();
+    // _checkIfCorrectScreen();
     // threadList = getThreadList();
     saveThreadList();
     super.initState();

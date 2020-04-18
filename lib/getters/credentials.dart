@@ -1,15 +1,15 @@
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/screens/thread_list_screen.dart';
 import 'package:flutter/material.dart';
 
-_save(String _value) async {
-  final prefs = await SharedPreferences.getInstance();
-  final key = 'my_credentials_key';
-  final value = _value;
-  prefs.setString(key, value);
-  print('saved $value');
-}
+// _save(String _value) async {
+//   final prefs = await SharedPreferences.getInstance();
+//   final key = 'my_credentials_key';
+//   final value = _value;
+//   prefs.setString(key, value);
+//   print('saved $value');
+// }
 
 Future<String> getCredentials(_mail, _password, context) async {
   print(_mail);
@@ -27,7 +27,7 @@ Future<String> getCredentials(_mail, _password, context) async {
   );
   if (response.statusCode == 200) {
     print(response.body);
-    _save(response.body.toString());
+    // _save(response.body.toString());
     Navigator.push(
       context,
       MaterialPageRoute(
