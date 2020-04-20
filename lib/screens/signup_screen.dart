@@ -7,23 +7,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  // Future<void> _checkIfCorrectScreen() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final key = 'my_credentials_key';
-  //   final value = prefs.getString(key) ?? 0;
-  //   if (value != null && value != 0) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (_) => ThreadListScreen()),
-  //     );
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   _checkIfCorrectScreen();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {

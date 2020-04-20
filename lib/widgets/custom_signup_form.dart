@@ -87,17 +87,17 @@ class _RegisterFormState extends State<RegisterForm> {
                       ),
                       labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
                     ),
-                    // validator: (input) => !input.contains('@') ? 'Podaj prawdziwy mail' : null,
-                    validator: (input) {
-                      if (!input.contains('@')) {
-                        return 'Podaj prawdziwy mail';
-                      } else if (_error401Email != null &&
-                          _error401Email == input) {
-                        return 'Nieprawidłowy mail';
-                      } else {
-                        return null;
-                      }
-                    },
+                    validator: (input) => !input.contains('@') ? 'Podaj prawdziwy mail' : null,
+                    // validator: (input) {
+                    //   if (!input.contains('@')) {
+                    //     return 'Podaj prawdziwy mail';
+                    //   } else if (_error401Email != null &&
+                    //       _error401Email == input) {
+                    //     return 'Nieprawidłowy mail';
+                    //   } else {
+                    //     return null;
+                    //   }
+                    // },
                     onSaved: (input) => _email = input,
                   ),
                 ),
@@ -109,6 +109,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     decoration: InputDecoration(
                       labelText: "Hasło",
                       border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
                     ),
                     validator: (input) {
                       if (input.length < 6) {
