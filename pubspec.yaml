@@ -46,7 +46,7 @@ dev_dependencies:
 #   android: "launcher_icon" 
 #   ios: false
 #   image_path: "assets/icons/app_icon.png"
-#   adaptive_icon_background: "#ffb6b9"
+#   adaptive_icon_background: "#13334C"
 #   adaptive_icon_foreground: "assets/icons/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
