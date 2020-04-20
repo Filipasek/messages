@@ -1,6 +1,7 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:stream/services/app_localizations.dart';
 import '../models/user_model.dart';
 import '../services/database_services.dart';
 import 'package:provider/provider.dart';
@@ -17,9 +18,10 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<QuerySnapshot> _users;
   _buildUserTile(User user) {
     String preUser = user.name;
+    String mePrompt = AppLocalizations.of(context).translate('me_searched');
     String userName =
         user.id == Provider.of<UserData>(context, listen: false).currentUserId
-            ? '$preUser (Ja)'
+            ? '$preUser ($mePrompt)'
             : '$preUser';
     return ListTile(
       leading: CircleAvatar(
@@ -67,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 vertical: 15.0,
               ),
               border: InputBorder.none,
-              hintText: 'Szukaj',
+              hintText: AppLocalizations.of(context).translate('search_form'),
               prefixIcon: Icon(
                 Icons.search,
                 size: 30.0,
@@ -91,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         body: _users == null
             ? Center(
-                child: Text('Wyszukaj użytkownika'),
+                child: Text(AppLocalizations.of(context).translate('search_screen_info')),
               )
             : FutureBuilder(
                 future: _users,
@@ -103,7 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
                   if (snapshot.data.documents.length == 0) {
                     return Center(
-                      child: Text('Nie znaleziono użytkowników'),
+                      child: Text(AppLocalizations.of(context).translate('users_not_found')),
                     );
                   }
                   return ListView.builder(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stream/screens/login_screen.dart';
+import 'package:stream/services/app_localizations.dart';
 import '../services/auth_service.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -12,8 +13,8 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   // bool error_401 = false;
-  String _error401Email = "a";
-  String _error401Password = "a";
+  // String _error401Email = "a";
+  // String _error401Password = "a";
   String _email;
   String _password;
   String _nickname;
@@ -33,7 +34,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 Container(
                   padding: EdgeInsets.only(bottom: 60.0, right: 30.0),
                   child: Text(
-                    "Dzień Dobry!",
+                    AppLocalizations.of(context)
+                        .translate('login_greeting_message'),
                     style: GoogleFonts.comfortaa(
                       wordSpacing: 20.0,
                       color: Theme.of(context).textTheme.headline5.color,
@@ -47,7 +49,8 @@ class _RegisterFormState extends State<RegisterForm> {
                   child: TextFormField(
                     showCursor: false,
                     decoration: InputDecoration(
-                      labelText: "Nazwa",
+                      labelText: AppLocalizations.of(context)
+                          .translate('nickname_form'),
                       fillColor: Colors.grey,
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
@@ -55,20 +58,17 @@ class _RegisterFormState extends State<RegisterForm> {
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .color
+                              .withOpacity(0.6)),
                     ),
                     validator: (input) => input.length < 4
-                        ? 'Nick musi mieć >= 4 znaków'
+                        ? AppLocalizations.of(context)
+                            .translate('nick_validator')
                         : null,
-                    // validator: (input) {
-                    //   if (!input.contains('@')) {
-                    //     return 'Podaj prawdziwy mail';
-                    //   } else if (_error401Email != null && _error401Email == input) {
-                    //     return 'Nieprawidłowy mail';
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
                     onSaved: (input) => _nickname = input,
                   ),
                 ),
@@ -77,7 +77,8 @@ class _RegisterFormState extends State<RegisterForm> {
                   child: TextFormField(
                     showCursor: false,
                     decoration: InputDecoration(
-                      labelText: "Adres email",
+                      labelText:
+                          AppLocalizations.of(context).translate('email_form'),
                       fillColor: Colors.grey,
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
@@ -85,19 +86,17 @@ class _RegisterFormState extends State<RegisterForm> {
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .color
+                              .withOpacity(0.6)),
                     ),
-                    validator: (input) => !input.contains('@') ? 'Podaj prawdziwy mail' : null,
-                    // validator: (input) {
-                    //   if (!input.contains('@')) {
-                    //     return 'Podaj prawdziwy mail';
-                    //   } else if (_error401Email != null &&
-                    //       _error401Email == input) {
-                    //     return 'Nieprawidłowy mail';
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    validator: (input) => !input.contains('@')
+                        ? AppLocalizations.of(context)
+                            .translate('email_validator')
+                        : null,
                     onSaved: (input) => _email = input,
                   ),
                 ),
@@ -107,24 +106,24 @@ class _RegisterFormState extends State<RegisterForm> {
                     showCursor: false,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: "Hasło",
+                      labelText: AppLocalizations.of(context)
+                          .translate('password_form'),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .color
+                              .withOpacity(0.6)),
                     ),
                     validator: (input) {
-                      if (input.length < 6) {
-                        return 'Hasło musi mieć >= 6 znaków';
-                      } else if (_error401Password != null &&
-                          _error401Password == input) {
-                        return 'Nieprawidłowe hasło';
-                      } else {
-                        return null;
-                      }
+                      return input.length < 6 ? AppLocalizations.of(context)
+                            .translate('password_validator') : null;
                     },
                     onSaved: (input) => _password = input,
                   ),
@@ -146,7 +145,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         width: 120.0,
                         child: Center(
                           child: Text(
-                            "Zaloguj",
+                            AppLocalizations.of(context).translate('login_ref'),
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                             ),
@@ -174,12 +173,11 @@ class _RegisterFormState extends State<RegisterForm> {
                         padding: EdgeInsets.all(10.0),
                         child: !loading
                             ? Text(
-                                "Gotowe!",
+                                AppLocalizations.of(context)
+                                    .translate('ready_button'),
                                 style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .button
-                                      .color,
+                                  color:
+                                      Theme.of(context).textTheme.button.color,
                                   fontSize: 18.0,
                                 ),
                               )

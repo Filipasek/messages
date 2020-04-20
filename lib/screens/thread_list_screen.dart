@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/models/message_model.dart';
 import 'package:stream/models/user_model.dart';
+import 'package:stream/services/app_localizations.dart';
 import '../getters/thread_list.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -153,41 +154,26 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text("Wylogować?"),
+                              title: Text(
+                                AppLocalizations.of(context)
+                                    .translate('log_out_prompt_title'),
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline5
+                                        .color),
+                              ),
                               content: Text(
-                                "Nastąpi wylogowanie się z aplikacji i konieczne będzie ponowne zalogowanie w celu ponownego korzystania z aplikacji.",
+                                AppLocalizations.of(context).translate('log_out_prompt_description'),
                               ),
                               actions: <Widget>[
                                 FlatButton(
-                                  child: Text("Nie"),
+                                  child: Text(AppLocalizations.of(context).translate('no')),
                                   onPressed: () => Navigator.of(context).pop(),
                                 ),
                                 FlatButton(
-                                  child: Text("Tak"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    return showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text("Na pewno?"),
-                                            content: Text(
-                                              "Nastąpi wylogowanie się z aplikacji i konieczne będzie ponowne zalogowanie w celu ponownego korzystania z aplikacji.\nNie nadużywaj tego - Facebook może zablokować konto i potrzebne będzie potwierdzanie tożsamości.",
-                                            ),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                child: Text("Nie"),
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
-                                              ),
-                                              FlatButton(
-                                                child: Text("Tak"),
-                                                onPressed: () => _remove(),
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                  },
+                                  child: Text(AppLocalizations.of(context).translate('yes')),
+                                  onPressed: () => _remove(),
                                 ),
                               ],
                             );
@@ -213,7 +199,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                             top: (kToolbarHeight / 4) + 0.2, left: 0.0),
                         child: Transform.translate(
                           child: Text(
-                            "Wiadomości",
+                            AppLocalizations.of(context).translate('big_thread_list_header'),
                             style: GoogleFonts.sourceSansPro(
                               fontSize: 23.0,
                               fontWeight: FontWeight.bold,
@@ -296,7 +282,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        "Aktywni użytkownicy".toUpperCase(),
+                                        AppLocalizations.of(context).translate('vertical_thread_list_screen_info').toUpperCase(),
                                         style: GoogleFonts.raleway(
                                           fontSize: 12.0,
                                           fontWeight: FontWeight.bold,
@@ -340,7 +326,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Text(
-                                          "twoje wiadomości".toUpperCase(),
+                                          AppLocalizations.of(context).translate('messages_section_info').toUpperCase(),
                                           style: GoogleFonts.raleway(
                                             fontSize: 12.0,
                                             fontWeight: FontWeight.bold,

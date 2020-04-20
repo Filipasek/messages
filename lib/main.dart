@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:stream/screens/thread_list_screen.dart';
+import 'package:stream/services/app_localizations.dart';
 import './screens/login_screen.dart';
 import './models/user_data.dart';
 
@@ -17,13 +19,21 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => UserData(),
       child: MaterialApp(
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('pl', ''),
+        ],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         color: Colors.white,
         theme: ThemeData(
           primaryColor: Colors.white,
           accentColor: Color.fromRGBO(255, 182, 185, 1),
           brightness: Brightness.light,
           iconTheme: IconThemeData(color: Color.fromRGBO(205, 205, 205, 1)),
-          
           textTheme: TextTheme(
             bodyText2: TextStyle(color: Color.fromRGBO(205, 205, 205, 1)),
             headline5: TextStyle(color: Colors.black),

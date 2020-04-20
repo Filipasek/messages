@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stream/models/user_data.dart';
+import 'package:stream/services/app_localizations.dart';
 import '../models/user_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:google_fonts/google_fonts.dart';
@@ -135,7 +136,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
               onChanged: (value) {},
               controller: textEditingController,
               decoration: InputDecoration.collapsed(
-                hintText: "Wyślij wiadomość...",
+                hintText: AppLocalizations.of(context).translate('send_message'),
                 // hintStyle: TextStyle()
               ),
             ),

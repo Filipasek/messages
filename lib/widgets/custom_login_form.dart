@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stream/services/app_localizations.dart';
 import '../screens/signup_screen.dart';
 import '../services/auth_service.dart';
 
@@ -12,8 +13,8 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   // bool error_401 = false;
-  String _error401Email = "a";
-  String _error401Password = "a";
+  // String _error401Email = "a";
+  // String _error401Password = "a";
   String _email;
   String _password;
   @override
@@ -32,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
                 Container(
                   padding: EdgeInsets.only(bottom: 60.0, right: 30.0),
                   child: Text(
-                    "Dzień Dobry!",
+                    AppLocalizations.of(context).translate('login_greeting_message'),
                     style: GoogleFonts.comfortaa(
                       wordSpacing: 20.0,
                       color: Theme.of(context).textTheme.headline5.color,
@@ -46,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
                   child: TextFormField(
                     showCursor: false,
                     decoration: InputDecoration(
-                      labelText: "Adres email",
+                      labelText: AppLocalizations.of(context).translate('email_form'),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -56,17 +57,7 @@ class _LoginFormState extends State<LoginForm> {
                       labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
                       // labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color),
                     ),
-                    // validator: (input) => !input.contains('@') ? 'Podaj prawdziwy mail' : null,
-                    validator: (input) {
-                      if (!input.contains('@')) {
-                        return 'Podaj prawdziwy mail';
-                      } else if (_error401Email != null &&
-                          _error401Email == input) {
-                        return 'Nieprawidłowy mail';
-                      } else {
-                        return null;
-                      }
-                    },
+                    validator: (input) => !input.contains('@') ? AppLocalizations.of(context).translate('email_validator') : null,
                     onSaved: (input) => _email = input,
                   ),
                 ),
@@ -76,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                     showCursor: false,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: "Hasło",
+                      labelText: AppLocalizations.of(context).translate('password_form'),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -86,14 +77,7 @@ class _LoginFormState extends State<LoginForm> {
                       labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
                     ),
                     validator: (input) {
-                      if (input.length < 6) {
-                        return 'Hasło musi mieć >= 6 znaków';
-                      } else if (_error401Password != null &&
-                          _error401Password == input) {
-                        return 'Nieprawidłowe hasło';
-                      } else {
-                        return null;
-                      }
+                      return input.length < 6 ? AppLocalizations.of(context).translate('password_validator') : null;
                     },
                     onSaved: (input) => _password = input,
                   ),
@@ -115,7 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                         width: 120.0,
                         child: Center(
                           child: Text(
-                            "Zarejestruj",
+                            AppLocalizations.of(context).translate('register_ref'),
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                             ),
@@ -132,16 +116,13 @@ class _LoginFormState extends State<LoginForm> {
                               loading = true;
                             });
                             AuthService.login(context, _email, _password);
-                            //                     Navigator.of(context).pushAndRemoveUntil(
-                            // MaterialPageRoute(builder: (context) => LoginScreen()),
-                            // (Route<dynamic> route) => false);;
                           }
                         },
                         color: Theme.of(context).accentColor,
                         padding: EdgeInsets.all(10.0),
                         child: !loading
                             ? Text(
-                                "Gotowe!",
+                                AppLocalizations.of(context).translate('ready_button'),
                                 style: TextStyle(
                                   // color: Colors.white,
                                   color: Theme.of(context)
