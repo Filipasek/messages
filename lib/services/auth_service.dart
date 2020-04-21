@@ -28,6 +28,7 @@ class AuthService {
         Provider.of<UserData>(context, listen: false).currentUserId =
             signedInUser.uid;
         Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Main()));
       }
     } catch (e) {
       print(e);
@@ -52,24 +53,10 @@ class AuthService {
       Provider.of<UserData>(context, listen: false).currentUserId =
           signedInUser.uid;
       // Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Main()));
+
     } on Exception catch (e) {
       print(e);
     }
   }
-  // Future<String> login(String email, String password) async {
-  //   email = email.trim();
-  //   password = password.trim();
-  //   try {
-  //     AuthResult authResult = await _auth.signInWithEmailAndPassword(
-  //         email: email, password: password);
-  //     FirebaseUser signedInUser = authResult.user;
-  //     if (signedInUser != null) {
-  //       return "success";
-  //     }else{
-  //       return "failure";
-  //     }
-  //   } on Exception catch (e) {
-  //     print(e);
-  //   }
-  // }
 }

@@ -31,9 +31,10 @@ class _LoginFormState extends State<LoginForm> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(bottom: 60.0, right: 30.0),
+                  padding: EdgeInsets.only(bottom: 50.0, right: 30.0),
                   child: Text(
-                    AppLocalizations.of(context).translate('login_greeting_message'),
+                    AppLocalizations.of(context)
+                        .translate('login_greeting_message'),
                     style: GoogleFonts.comfortaa(
                       wordSpacing: 20.0,
                       color: Theme.of(context).textTheme.headline5.color,
@@ -43,108 +44,134 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0),
+                  padding: const EdgeInsets.only(bottom: 20.0),
                   child: TextFormField(
                     showCursor: false,
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).translate('email_form'),
+                      labelText:
+                          AppLocalizations.of(context).translate('email_form'),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .color
+                              .withOpacity(0.6)),
                       // labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color),
                     ),
-                    validator: (input) => !input.contains('@') ? AppLocalizations.of(context).translate('email_validator') : null,
+                    validator: (input) => !input.contains('@')
+                        ? AppLocalizations.of(context)
+                            .translate('email_validator')
+                        : null,
                     onSaved: (input) => _email = input,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 40.0),
+                  padding: const EdgeInsets.only(bottom: 30.0),
                   child: TextFormField(
                     showCursor: false,
                     obscureText: true,
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).translate('password_form'),
+                      labelText: AppLocalizations.of(context)
+                          .translate('password_form'),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      labelStyle: TextStyle(color: Theme.of(context).textTheme.headline5.color.withOpacity(0.6)),
+                      labelStyle: TextStyle(
+                          color: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .color
+                              .withOpacity(0.6)),
                     ),
                     validator: (input) {
-                      return input.length < 6 ? AppLocalizations.of(context).translate('password_validator') : null;
+                      return input.length < 6
+                          ? AppLocalizations.of(context)
+                              .translate('password_validator')
+                          : null;
                     },
                     onSaved: (input) => _password = input,
                   ),
                 ),
                 Container(
                   width: double.infinity,
-                  height: 50.0,
-                  margin: EdgeInsets.only(bottom: 40.0),
-                  child: Row(children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => SignupScreen()),
-                        );
-                      },
-                      child: Container(
+                  height: 100.0,
+                  margin: EdgeInsets.only(bottom: 30.0),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
                         height: 50.0,
-                        width: 120.0,
-                        child: Center(
-                          child: Text(
-                            AppLocalizations.of(context).translate('register_ref'),
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
+                        width: double.infinity,
+                        child: FlatButton(
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              setState(() {
+                                loading = true;
+                              });
+                              AuthService.login(context, _email, _password);
+                            }
+                          },
+                          color: Theme.of(context).accentColor,
+                          padding: EdgeInsets.all(10.0),
+                          child: !loading
+                              ? Text(
+                                  AppLocalizations.of(context)
+                                      .translate('ready_button'),
+                                  style: TextStyle(
+                                    // color: Colors.white,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        .color,
+                                    fontSize: 18.0,
+                                  ),
+                                )
+                              : Container(
+                                  height: 30.0,
+                                  width: 30.0,
+                                  child: CircularProgressIndicator(
+                                    // backgroundColor: Colors.blue,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color.fromRGBO(245, 88, 123, 1),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => SignupScreen()),
+                            );
+                          },
+                          child: Container(
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                AppLocalizations.of(context)
+                                    .translate('register_ref'),
+                                style: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: FlatButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            setState(() {
-                              loading = true;
-                            });
-                            AuthService.login(context, _email, _password);
-                          }
-                        },
-                        color: Theme.of(context).accentColor,
-                        padding: EdgeInsets.all(10.0),
-                        child: !loading
-                            ? Text(
-                                AppLocalizations.of(context).translate('ready_button'),
-                                style: TextStyle(
-                                  // color: Colors.white,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .button
-                                      .color,
-                                  fontSize: 18.0,
-                                ),
-                              )
-                            : Container(
-                                height: 30.0,
-                                width: 30.0,
-                                child: CircularProgressIndicator(
-                                  // backgroundColor: Colors.blue,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color.fromRGBO(245, 88, 123, 1),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ],
             ),

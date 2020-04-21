@@ -32,7 +32,7 @@ class _RegisterFormState extends State<RegisterForm> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(bottom: 60.0, right: 30.0),
+                  padding: EdgeInsets.only(bottom: 50.0, right: 30.0),
                   child: Text(
                     AppLocalizations.of(context)
                         .translate('login_greeting_message'),
@@ -45,7 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0),
+                  padding: const EdgeInsets.only(bottom: 20.0),
                   child: TextFormField(
                     showCursor: false,
                     decoration: InputDecoration(
@@ -73,7 +73,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0),
+                  padding: const EdgeInsets.only(bottom: 20.0),
                   child: TextFormField(
                     showCursor: false,
                     decoration: InputDecoration(
@@ -101,7 +101,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 40.0),
+                  padding: const EdgeInsets.only(bottom: 20.0),
                   child: TextFormField(
                     showCursor: false,
                     obscureText: true,
@@ -122,78 +122,89 @@ class _RegisterFormState extends State<RegisterForm> {
                               .withOpacity(0.6)),
                     ),
                     validator: (input) {
-                      return input.length < 6 ? AppLocalizations.of(context)
-                            .translate('password_validator') : null;
+                      return input.length < 6
+                          ? AppLocalizations.of(context)
+                              .translate('password_validator')
+                          : null;
                     },
                     onSaved: (input) => _password = input,
                   ),
                 ),
                 Container(
                   width: double.infinity,
-                  height: 50.0,
-                  margin: EdgeInsets.only(bottom: 40.0),
-                  child: Row(children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => LoginScreen()),
-                        );
-                      },
-                      child: Container(
-                        height: 50.0,
-                        width: 120.0,
-                        child: Center(
-                          child: Text(
-                            AppLocalizations.of(context).translate('login_ref'),
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
+                  height: 100.0,
+                  margin: EdgeInsets.only(bottom: 30.0),
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          height: 50.0,
+                          width: double.infinity,
+                          child: FlatButton(
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                setState(() {
+                                  loading = true;
+                                });
+                                AuthService.signUpUser(
+                                  context,
+                                  _nickname,
+                                  _email,
+                                  _password,
+                                );
+                              }
+                            },
+                            color: Theme.of(context).accentColor,
+                            padding: EdgeInsets.all(10.0),
+                            child: !loading
+                                ? Text(
+                                    AppLocalizations.of(context)
+                                        .translate('ready_button'),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .button
+                                          .color,
+                                      fontSize: 18.0,
+                                    ),
+                                  )
+                                : Container(
+                                    height: 30.0,
+                                    width: 30.0,
+                                    child: CircularProgressIndicator(
+                                      // backgroundColor: Colors.blue,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Color.fromRGBO(245, 88, 123, 1),
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => LoginScreen()),
+                          );
+                        },
+                        child: Container(
+                          height: 50.0,
+                          width: double.infinity,
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context)
+                                  .translate('login_ref'),
+                              style: TextStyle(
+                                color: Theme.of(context).accentColor,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: FlatButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            setState(() {
-                              loading = true;
-                            });
-                            AuthService.signUpUser(
-                              context,
-                              _nickname,
-                              _email,
-                              _password,
-                            );
-                          }
-                        },
-                        color: Theme.of(context).accentColor,
-                        padding: EdgeInsets.all(10.0),
-                        child: !loading
-                            ? Text(
-                                AppLocalizations.of(context)
-                                    .translate('ready_button'),
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).textTheme.button.color,
-                                  fontSize: 18.0,
-                                ),
-                              )
-                            : Container(
-                                height: 30.0,
-                                width: 30.0,
-                                child: CircularProgressIndicator(
-                                  // backgroundColor: Colors.blue,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color.fromRGBO(245, 88, 123, 1),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ],
             ),
