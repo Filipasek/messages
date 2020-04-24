@@ -9,7 +9,8 @@ import './screens/login_screen.dart';
 import './models/user_data.dart';
 import 'models/user_data.dart';
 
-void main() async {
+void main() async {//hello
+
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
