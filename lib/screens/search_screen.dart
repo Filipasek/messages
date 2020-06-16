@@ -34,6 +34,16 @@ class _SearchScreenState extends State<SearchScreen> {
       title: Text(userName),
       onTap: () {
         String me = Provider.of<UserData>(context, listen: false).currentUserId;
+        var chatId = DatabaseService.getChatId(me, user);
+        var docRef = Firestore.instance.collection('messages').document(chatId);
+
+        Firestore.instance.runTransaction((transaction) async {
+          await transaction.set(docRef, {
+            me: true,
+            user.id: true,
+          });
+        });
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -93,7 +103,8 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         body: _users == null
             ? Center(
-                child: Text(AppLocalizations.of(context).translate('search_screen_info')),
+                child: Text(AppLocalizations.of(context)
+                    .translate('search_screen_info')),
               )
             : FutureBuilder(
                 future: _users,
@@ -105,7 +116,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
                   if (snapshot.data.documents.length == 0) {
                     return Center(
-                      child: Text(AppLocalizations.of(context).translate('users_not_found')),
+                      child: Text(AppLocalizations.of(context)
+                          .translate('users_not_found')),
                     );
                   }
                   return ListView.builder(

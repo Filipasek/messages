@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +9,9 @@ import '../getters/thread_list.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import './search_screen.dart';
+import 'package:provider/provider.dart';
+import '../models/user_data.dart';
+import '../utilities/constants.dart';
 
 class ThreadListScreen extends StatefulWidget {
   @override
@@ -37,9 +41,21 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
     isCompleted = true;
   }
 
+  Future<void> getList() async {
+    var uid = Provider.of<UserData>(context, listen: false).currentUserId;
+    Future<QuerySnapshot> threads =
+        threadsRef.where(uid, isEqualTo: true).getDocuments();
+    // QuerySnapshot ksn;
+    // var f = ksn.documents.
+    // DocumentSnapshot jo;
+    // var k = jo.data;
+    return threads;
+  }
+
   @override
   void initState() {
     saveThreadList();
+    getList();
     super.initState();
   }
 
@@ -83,7 +99,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                   _firstName(favorites[i].name),
                   style: GoogleFonts.comfortaa(
                     fontSize: 13.0,
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.headline5.color,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -164,15 +180,18 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                         .color),
                               ),
                               content: Text(
-                                AppLocalizations.of(context).translate('log_out_prompt_description'),
+                                AppLocalizations.of(context)
+                                    .translate('log_out_prompt_description'),
                               ),
                               actions: <Widget>[
                                 FlatButton(
-                                  child: Text(AppLocalizations.of(context).translate('no')),
+                                  child: Text(AppLocalizations.of(context)
+                                      .translate('no')),
                                   onPressed: () => Navigator.of(context).pop(),
                                 ),
                                 FlatButton(
-                                  child: Text(AppLocalizations.of(context).translate('yes')),
+                                  child: Text(AppLocalizations.of(context)
+                                      .translate('yes')),
                                   onPressed: () => _remove(),
                                 ),
                               ],
@@ -199,7 +218,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                             top: (kToolbarHeight / 4) + 0.2, left: 0.0),
                         child: Transform.translate(
                           child: Text(
-                            AppLocalizations.of(context).translate('big_thread_list_header'),
+                            AppLocalizations.of(context)
+                                .translate('big_thread_list_header'),
                             style: GoogleFonts.sourceSansPro(
                               fontSize: 23.0,
                               fontWeight: FontWeight.bold,
@@ -228,12 +248,17 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
             await Future.delayed(Duration(seconds: 2), () {});
           },
           key: _refreshIndicatorKey,
+          // child: FutureBuilder(
+          //     future: threadList,
           child: FutureBuilder(
-              future: threadList,
+              future: getList(),
               builder: (context, snapshot) {
                 return ListView.builder(
-                    itemCount:
-                        snapshot.hasData ? snapshot.data.threads.length + 2 : 1,
+                    // itemCount:
+                    //     snapshot.hasData ? snapshot.data.threads.length + 2 : 1,
+                    itemCount: snapshot.hasData
+                        ? snapshot.data.documents.length + 2
+                        : 1,
                     itemBuilder: (context, i) {
                       int index = i - 2;
                       String _name;
@@ -242,8 +267,11 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                       String _avatarUrl;
                       bool _unread;
                       if (snapshot.hasData) {
+                        print('hereeeeeeeeeeeeeeeeeeeeeee');
+                        print(snapshot.data.documents[0]); //TODO:
+                        print('hereeeeeeeeeeeeeeeeeeeeeee');
                         try {
-                          if (index >= 0) {
+                          if (index >= 0 && false) {
                             _name = snapshot.data.threads[index].name;
                             _time = snapshot.data.threads[index].time;
                             _message = snapshot.data.threads[index].message;
@@ -271,7 +299,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                       }
                       // bool _unread = i % 3 == 0;
 
-                      if (i == 0) {
+                      if (i == 0 || true) {
                         return Container(
                           color: Theme.of(context).primaryColor,
                           child: Column(
@@ -282,7 +310,10 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        AppLocalizations.of(context).translate('vertical_thread_list_screen_info').toUpperCase(),
+                                        AppLocalizations.of(context)
+                                            .translate(
+                                                'vertical_thread_list_screen_info')
+                                            .toUpperCase(),
                                         style: GoogleFonts.raleway(
                                           fontSize: 12.0,
                                           fontWeight: FontWeight.bold,
@@ -326,7 +357,10 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Text(
-                                          AppLocalizations.of(context).translate('messages_section_info').toUpperCase(),
+                                          AppLocalizations.of(context)
+                                              .translate(
+                                                  'messages_section_info')
+                                              .toUpperCase(),
                                           style: GoogleFonts.raleway(
                                             fontSize: 12.0,
                                             fontWeight: FontWeight.bold,

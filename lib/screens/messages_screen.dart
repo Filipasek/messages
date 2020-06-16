@@ -101,7 +101,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       var docRef = Firestore.instance
           .collection('messages')
           .document(widget.chatId)
-          .collection(widget.chatId)
+          .collection('threads')
           .document(DateTime.now().millisecondsSinceEpoch.toString());
       Firestore.instance.runTransaction((transaction) async {
         await transaction.set(docRef, {
@@ -121,7 +121,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       height: 70.0,
-      color: Colors.white,
+      color: Theme.of(context).primaryColor,
       child: Row(
         children: <Widget>[
           IconButton(
@@ -135,8 +135,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
               textCapitalization: TextCapitalization.sentences,
               onChanged: (value) {},
               controller: textEditingController,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.headline5.color
+              ),
               decoration: InputDecoration.collapsed(
-                hintText: AppLocalizations.of(context).translate('send_message'),
+                hintText:
+                    AppLocalizations.of(context).translate('send_message'),
                 // hintStyle: TextStyle()
               ),
             ),
@@ -161,7 +165,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          
           widget.user.name,
           style: GoogleFonts.comfortaa(
             fontSize: 24.0,
@@ -173,7 +176,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
           IconButton(
             icon: Icon(Icons.more_horiz),
             iconSize: 30.0,
-            color: Colors.white,
             onPressed: () {},
           ),
         ],
@@ -191,7 +193,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   stream: Firestore.instance
                       .collection('messages')
                       .document(widget.chatId)
-                      .collection(widget.chatId)
+                      .collection('threads')
                       .orderBy('timestamp', descending: true)
                       .limit(20)
                       .snapshots(),

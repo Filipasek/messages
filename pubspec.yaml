@@ -1,5 +1,5 @@
 name: stream
-description: A new Flutter project.
+description: A messaging app made with Flutter
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -32,6 +32,7 @@ dependencies:
   provider: ^4.0.5
   timeago: ^2.0.26
   intl: ^0.16.1
+  google_sign_in: ^4.5.1
 
 
 

@@ -1,4 +1,4 @@
-package com.example.stream
+package pl.filipguzdek.messager
 
 import io.flutter.embedding.android.FlutterActivity
 

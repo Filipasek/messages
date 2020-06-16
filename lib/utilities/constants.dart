@@ -5,3 +5,4 @@ import 'package:firebase_storage/firebase_storage.dart';
 final _firestore = Firestore.instance;
 final storageRef = FirebaseStorage.instance.ref();
 final userRef = _firestore.collection('users');
+final threadsRef = _firestore.collection('messages');
