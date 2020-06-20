@@ -98,6 +98,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
     //type: 0 = text, 1 = image
     textEditingController.clear();
     if (content.trim() != '') {
+      var topDocRef =
+          Firestore.instance.collection('messages').document(widget.chatId);
       var docRef = Firestore.instance
           .collection('messages')
           .document(widget.chatId)
@@ -111,6 +113,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
           'content': content,
           'type': type,
         });
+        await transaction.update(
+            topDocRef, {'timestamp': DateTime.now().millisecondsSinceEpoch});
       });
       listScrollController.animateTo(0.0,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
@@ -135,9 +139,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
               textCapitalization: TextCapitalization.sentences,
               onChanged: (value) {},
               controller: textEditingController,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.headline5.color
-              ),
+              style:
+                  TextStyle(color: Theme.of(context).textTheme.headline5.color),
               decoration: InputDecoration.collapsed(
                 hintText:
                     AppLocalizations.of(context).translate('send_message'),

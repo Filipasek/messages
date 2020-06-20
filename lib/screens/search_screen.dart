@@ -34,7 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
       title: Text(userName),
       onTap: () {
         String me = Provider.of<UserData>(context, listen: false).currentUserId;
-        var chatId = DatabaseService.getChatId(me, user);
+        var chatId = DatabaseService.getChatId(meId: me, user: user);
         var docRef = Firestore.instance.collection('messages').document(chatId);
 
         Firestore.instance.runTransaction((transaction) async {
@@ -42,13 +42,13 @@ class _SearchScreenState extends State<SearchScreen> {
             me: true,
             user.id: true,
           });
-        });
+        }); //TODO: Make it happen on first message
 
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => MessagesScreen(
-              chatId: DatabaseService.getChatId(me, user),
+              chatId: DatabaseService.getChatId(meId: me, user: user),
               user: user,
             ),
           ),

@@ -29,7 +29,8 @@ class AuthService {
         Provider.of<UserData>(context, listen: false).currentUserId =
             signedInUser.uid;
         Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Main()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => Main()));
       }
     } catch (e) {
       print(e);
@@ -39,7 +40,8 @@ class AuthService {
   static void logout(context) async {
     await Provider.of<UserData>(context, listen: false).logout();
     _auth.signOut();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Main()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => Main()));
 
     // Navigator.pushReplacementNamed(context, LoginScreen.id);
   }
@@ -54,18 +56,12 @@ class AuthService {
       Provider.of<UserData>(context, listen: false).currentUserId =
           signedInUser.uid;
       // Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Main()));
-
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => Main()));
     } on Exception catch (e) {
       print(e);
     }
   }
-
-
-
-
-
-
 
   static final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -82,19 +78,19 @@ class AuthService {
 
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     final FirebaseUser user = authResult.user;
+    Provider.of<UserData>(context, listen: false).currentUserId = user.uid;
+
 
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
 
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
-
     await addUserToDatabase(
         user.uid, user.displayName, user.email, user.photoUrl);
 
-    Provider.of<UserData>(context, listen: false).currentUserId =
-            user.uid;
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Main()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => Main()));
     //needs to be checked if user exists
   }
 

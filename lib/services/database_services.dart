@@ -3,12 +3,21 @@ import '../models/user_model.dart';
 import '../utilities/constants.dart';
 
 class DatabaseService {
-  static String getChatId(String meId, User user){
-    String userId = user.id;
-    if(meId.hashCode <= userId.hashCode){
-      return '$meId-$userId';
-    }else{
-      return '$userId-$meId';
+  ///Returns chatId, doesn't matter who is who as long as you assing them to their correct Types.
+  static String getChatId({String meId, User user, String userId}) {
+    String otherUserId = userId ?? user.id;
+    assert(otherUserId != null);
+    assert(meId != null);
+    if (meId.hashCode <= otherUserId.hashCode) {
+      assert(meId != null);
+      assert(otherUserId != null);
+
+      return '$meId-$otherUserId';
+    } else {
+      assert(meId != null);
+      assert(otherUserId != null);
+
+      return '$otherUserId-$meId';
     }
   }
 
@@ -20,10 +29,11 @@ class DatabaseService {
     });
   }
 
+  ///Searches for user with similar name (not really good at its job).
   static Future<QuerySnapshot> searchUsers(String name) {
     Future<QuerySnapshot> users =
         userRef.where('name', isLessThanOrEqualTo: name).getDocuments();
-        // userRef.sea
+    // userRef.sea
     return users;
   }
 }
