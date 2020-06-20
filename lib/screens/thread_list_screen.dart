@@ -15,7 +15,6 @@ import '../utilities/constants.dart';
 import '../models/threads_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-
 class ThreadListScreen extends StatefulWidget {
   @override
   _ThreadListScreenState createState() => _ThreadListScreenState();
@@ -454,6 +453,7 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
               .collection('messages')
               .where(uid, isEqualTo: true)
               .limit(50)
+              .orderBy('timestamp', descending: true)
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
