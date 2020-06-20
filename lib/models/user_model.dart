@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stream/models/threads_model.dart';
 
 class User {
   final String id;
@@ -22,6 +23,13 @@ class User {
       bio: doc["bio"] ?? '', //if equal to null [prevents from crushing]
     );
   }
+  factory User.fromThread(Thread thr) {
+    return User(
+      name: thr.otherPerson,
+      imageUrl: thr.imageUrl,
+      email: thr.email,
+    );
+  }
 }
 
 class Somebody {
@@ -38,54 +46,54 @@ class Somebody {
   });
 }
 
-class Thread{
-  final String threadID;
-  final String name;
-  final String imageUrl;
-  final String service;
-  final String time;
-  final String message;
-  final bool isRead;
-  final String byWho;
+// class Thread{
+//   final String threadID;
+//   final String name;
+//   final String imageUrl;
+//   final String service;
+//   final String time;
+//   final String message;
+//   final bool isRead;
+//   final String byWho;
 
-  Thread({
-    this.threadID,
-    this.name,
-    this.imageUrl,
-    this.service,
-    this.time,
-    this.message,
-    this.isRead,
-    this.byWho,
-  });
+//   Thread({
+//     this.threadID,
+//     this.name,
+//     this.imageUrl,
+//     this.service,
+//     this.time,
+//     this.message,
+//     this.isRead,
+//     this.byWho,
+//   });
 
-  factory Thread.fromJson(Map<String, dynamic> json) {
-    return Thread(
-      threadID: json['threadID'] as String,
-      name: json['name'] as String,
-      imageUrl: json['imageSrc'] as String,
-      service: json['service'] as String,
-      time: json['when'] as String,
-      message: json['last_message'] as String,
-      isRead: json['isRead'] as bool,
-      byWho: json['who'] as String,
-    );
-  }
-}
+//   factory Thread.fromJson(Map<String, dynamic> json) {
+//     return Thread(
+//       threadID: json['threadID'] as String,
+//       name: json['name'] as String,
+//       imageUrl: json['imageSrc'] as String,
+//       service: json['service'] as String,
+//       time: json['when'] as String,
+//       message: json['last_message'] as String,
+//       isRead: json['isRead'] as bool,
+//       byWho: json['who'] as String,
+//     );
+//   }
+// }
 
-class ThreadList{
-  final List<Thread> threads;
-  // var lgt;
-  ThreadList({
-    this.threads,
-  });
+// class ThreadList{
+//   final List<Thread> threads;
+//   // var lgt;
+//   ThreadList({
+//     this.threads,
+//   });
   
-  factory ThreadList.fromJson(List<dynamic> parsedJson){
-    List<Thread> threads = new List<Thread>();
-    threads = parsedJson.map((i) => Thread.fromJson(i)).toList();
-    return new ThreadList(
-      threads: threads,
-      // lgt: threads.length
-    );
-  }
-}
+//   factory ThreadList.fromJson(List<dynamic> parsedJson){
+//     List<Thread> threads = new List<Thread>();
+//     threads = parsedJson.map((i) => Thread.fromJson(i)).toList();
+//     return new ThreadList(
+//       threads: threads,
+//       // lgt: threads.length
+//     );
+//   }
+// }

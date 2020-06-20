@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stream/models/message_model.dart';
+import 'package:stream/models/user_model.dart';
+import 'package:stream/screens/messages_screen.dart';
 // import 'package:stream/models/user_model.dart';
 import 'package:stream/services/app_localizations.dart';
 // import '../getters/thread_list.dart';
@@ -14,6 +16,7 @@ import '../models/user_data.dart';
 import '../utilities/constants.dart';
 import '../models/threads_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
+// import 'package:animations/animations.dart';
 
 class ThreadListScreen extends StatefulWidget {
   @override
@@ -52,7 +55,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
     String name = data['name'];
     String picUrl = data['avatar'] ??
         'assets'; //in case no imageUrl is provided, use from assets
-    return {'name': name, 'imageUrl': picUrl};
+    String email = data['email'];
+    return {'name': name, 'imageUrl': picUrl, 'email': email};
   }
 
   List<Future<Thread>> getList(List<DocumentSnapshot> _list) {
@@ -132,7 +136,8 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
     );
   }
 
-  Widget _container(i, _avatarUrl, _name, _unread, _time, _message) {
+  Widget _container(
+      i, _avatarUrl, _name, _unread, _time, _message, Thread _threadInfo) {
     return Container(
       padding: EdgeInsets.only(left: 20.0, top: 10.0),
       child: false
@@ -182,85 +187,101 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                     )
                   ],
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 14.0,
-                            top: 10,
-                          ),
-                          height: 40.0,
-                          width: 40.0,
-                          padding: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                                //TODO: add image
+                child: FlatButton(
+                  onPressed: () {
+                    print('pressed');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MessagesScreen(
+                          chatId: _threadInfo.threadID,
+                          user: User.fromThread(_threadInfo),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 0.0,
+                              top: 10,
+                            ),
+                            height: 40.0,
+                            width: 40.0,
+                            padding: EdgeInsets.all(0.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
                                 fit: BoxFit.cover,
                                 // image: !snapshot.hasData
                                 image: _avatarUrl == 'assets'
                                     ? AssetImage(
                                         "assets/images/user_placeholder.jpg")
-                                    : NetworkImage(_avatarUrl)),
-                          ),
-                          // child: !snapshot.hasData ? CircleAvatar(
-                          //   radius: 20.0,
-                          //   backgroundImage: AssetImage(
-                          //     _avatarUrl,
-                          //   ),
-                          // ) : Image.network(_avatarUrl, fit: BoxFit.cover, ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 23.0, 15.0, 4.5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    _name,
-                                    style: GoogleFonts.comfortaa(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                      color: _unread
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .color
-                                          : Theme.of(context).iconTheme.color,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  _time,
-                                  style: TextStyle(fontSize: 12.0),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Text(
-                                _message,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  height: 1.6,
-                                ),
+                                    : NetworkImage(_avatarUrl),
                               ),
                             ),
-                          ],
+                            // child: !snapshot.hasData ? CircleAvatar(
+                            //   radius: 20.0,
+                            //   backgroundImage: AssetImage(
+                            //     _avatarUrl,
+                            //   ),
+                            // ) : Image.network(_avatarUrl, fit: BoxFit.cover, ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              10.0, 23.0, 15.0, 4.5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      _name,
+                                      style: GoogleFonts.comfortaa(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0,
+                                        color: _unread
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .headline5
+                                                .color
+                                            : Theme.of(context)
+                                                .iconTheme
+                                                .color,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    _time,
+                                    style: TextStyle(fontSize: 12.0),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Text(
+                                  _message,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    height: 1.6,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -470,16 +491,18 @@ class _ThreadListScreenState extends State<ThreadListScreen> {
                         Thread threadData = snapshot.data;
                         // return Center(child: Text(threadData.otherPerson));
                         return _container(
-                            i,
-                            threadData.imageUrl,
-                            threadData.otherPerson,
-                            false,
-                            timeago.format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  threadData.timestamp),
-                              locale: 'pl',
-                            ),
-                            threadData.message);
+                          i,
+                          threadData.imageUrl,
+                          threadData.otherPerson,
+                          false,
+                          timeago.format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                threadData.timestamp),
+                            locale: 'pl',
+                          ),
+                          threadData.message,
+                          threadData,
+                        );
                       }
                       return Center(child: LinearProgressIndicator());
                     },

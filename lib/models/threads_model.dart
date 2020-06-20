@@ -11,6 +11,7 @@ class Thread {
   final String message;
   // final bool isRead;
   final String otherPerson;
+  final String email;
 
   Thread({
     this.threadID,
@@ -22,6 +23,7 @@ class Thread {
     this.message,
     // this.isRead,
     this.otherPerson,
+    this.email,
   });
 
   factory Thread.fromList(Map<String, dynamic> json, Map userInfo) {
@@ -32,7 +34,10 @@ class Thread {
       timestamp: json['timestamp'],
       message: json['content'] as String,
       otherPerson: userInfo['name'] as String,
-      threadID: DatabaseService.getChatId(meId: json['idFrom'], userId: json['idTo']), //doesn't really matter who is who
+      threadID: DatabaseService.getChatId(
+          meId: json['idFrom'],
+          userId: json['idTo']), //doesn't really matter who is who
+      email: userInfo['email'],
     );
   }
 }
@@ -44,32 +49,29 @@ class Thread {
 //     this.threads,
 //   });
 
-  // factory ThreadList.fromList(List<dynamic> _list) {
-    // print('here2!');
+// factory ThreadList.fromList(List<dynamic> _list) {
+// print('here2!');
 
-    // List<Future<Thread>> threads = new List<Future<Thread>>();
-    // threads = _list.map((DocumentSnapshot ds) async {
-    //   return await ds.reference
-    //       .collection('threads')
-    //       .orderBy('timestamp', descending: true)
-    //       .limit(1)
-    //       .getDocuments()
-    //       .then((QuerySnapshot querySnapshot) {
-    //     return Thread.fromList(querySnapshot.documents[0].data);
-    //   });
-    // }).toList();
-    // print('here3!');
+// List<Future<Thread>> threads = new List<Future<Thread>>();
+// threads = _list.map((DocumentSnapshot ds) async {
+//   return await ds.reference
+//       .collection('threads')
+//       .orderBy('timestamp', descending: true)
+//       .limit(1)
+//       .getDocuments()
+//       .then((QuerySnapshot querySnapshot) {
+//     return Thread.fromList(querySnapshot.documents[0].data);
+//   });
+// }).toList();
+// print('here3!');
 
-
-
-
-    // List<Thread> threads = new List<Thread>();
-    // threads = _list.map((i) {
-    //   return Thread.fromList(i);
-    // }).toList();
-    // return new ThreadList(
-    //   threads: threads,
-    //   // lgt: threads.length
-    // );
+// List<Thread> threads = new List<Thread>();
+// threads = _list.map((i) {
+//   return Thread.fromList(i);
+// }).toList();
+// return new ThreadList(
+//   threads: threads,
+//   // lgt: threads.length
+// );
 //   }
 // }

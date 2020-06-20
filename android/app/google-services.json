@@ -1,56 +1,72 @@
 {
-    "project_info": {
-        "project_number": "627378104454",
-        "firebase_url": "https://messager-68472.firebaseio.com",
-        "project_id": "messager-68472",
-        "storage_bucket": "messager-68472.appspot.com"
-    },
-    "client": [{
-            "client_info": {
-                "mobilesdk_app_id": "1:627378104454:android:314e8c426a064991410907",
-                "android_client_info": {
-                    "package_name": "com.example.stream"
-                }
-            },
-            "oauth_client": [{
-                "client_id": "627378104454-dgiq96cpmje2h1h5ovicdvekq280lima.apps.googleusercontent.com",
-                "client_type": 3
-            }],
-            "api_key": [{
-                "current_key": "AIzaSyBKX1ub3LvHMrqQR3GiqqeZBAQIWQtC5HQ"
-            }],
-            "services": {
-                "appinvite_service": {
-                    "other_platform_oauth_client": [{
-                        "client_id": "627378104454-dgiq96cpmje2h1h5ovicdvekq280lima.apps.googleusercontent.com",
-                        "client_type": 3
-                    }]
-                }
-            }
+  "project_info": {
+    "project_number": "627378104454",
+    "firebase_url": "https://messager-68472.firebaseio.com",
+    "project_id": "messager-68472",
+    "storage_bucket": "messager-68472.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627378104454:android:cde925aafe2c9604410907",
+        "android_client_info": {
+          "package_name": "pl.filipguzdek.messager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627378104454-v2u3g622hgas7jei6a7kictslcd2h330.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.filipguzdek.messager",
+            "certificate_hash": "73063b83e6126b8609cf9370d21b7c51cfdbb5b1"
+          }
         },
         {
-            "client_info": {
-                "mobilesdk_app_id": "1:627378104454:android:cde925aafe2c9604410907",
-                "android_client_info": {
-                    "package_name": "pl.filipguzdek.messager"
-                }
-            },
-            "oauth_client": [{
-                "client_id": "627378104454-dgiq96cpmje2h1h5ovicdvekq280lima.apps.googleusercontent.com",
-                "client_type": 3
-            }],
-            "api_key": [{
-                "current_key": "AIzaSyBKX1ub3LvHMrqQR3GiqqeZBAQIWQtC5HQ"
-            }],
-            "services": {
-                "appinvite_service": {
-                    "other_platform_oauth_client": [{
-                        "client_id": "627378104454-dgiq96cpmje2h1h5ovicdvekq280lima.apps.googleusercontent.com",
-                        "client_type": 3
-                    }]
-                }
-            }
+          "client_id": "627378104454-pkrag2g1cm8oiqkpcs9lb7pas4gmasbn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.filipguzdek.messager",
+            "certificate_hash": "620b93b2ba24ca3ea296eec94895b158fcb3b3ae"
+          }
+        },
+        {
+          "client_id": "627378104454-vsg45opir7phdeo8o6jce6qh1a8s5r4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.filipguzdek.messager",
+            "certificate_hash": "23eb314df226137491a85d7d665c2df301dfe84f"
+          }
+        },
+        {
+          "client_id": "627378104454-n2ebcjsqkmq7okj459tabri8j5e7041b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.filipguzdek.messager",
+            "certificate_hash": "acd0b0574ff138bfb3d366c2cdf978b1d197f815"
+          }
+        },
+        {
+          "client_id": "627378104454-dgiq96cpmje2h1h5ovicdvekq280lima.apps.googleusercontent.com",
+          "client_type": 3
         }
-    ],
-    "configuration_version": "1"
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKX1ub3LvHMrqQR3GiqqeZBAQIWQtC5HQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627378104454-dgiq96cpmje2h1h5ovicdvekq280lima.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }

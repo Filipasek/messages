@@ -164,67 +164,70 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          widget.user.name,
-          style: GoogleFonts.comfortaa(
-            fontSize: 24.0,
-            fontWeight: FontWeight.w600,
-          ),
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: AppBar(
+    centerTitle: true,
+    title: SizedBox(
+      // tag: widget.user.name.hashCode,
+      child: Text(
+        widget.user.name,
+        style: GoogleFonts.comfortaa(
+          fontSize: 24.0,
+          fontWeight: FontWeight.w600,
         ),
-        elevation: 4.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.more_horiz),
-            iconSize: 30.0,
-            onPressed: () {},
-          ),
+      ),
+    ),
+    elevation: 4.0,
+    actions: <Widget>[
+      IconButton(
+        icon: Icon(Icons.more_horiz),
+        iconSize: 30.0,
+        onPressed: () {},
+      ),
+    ],
+        ),
+        body: GestureDetector(
+    onTap: () => FocusScope.of(context).unfocus(),
+    child: Column(
+        children: <Widget>[
+    Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+        ),
+        child: StreamBuilder(
+          stream: Firestore.instance
+              .collection('messages')
+              .document(widget.chatId)
+              .collection('threads')
+              .orderBy('timestamp', descending: true)
+              .limit(20)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                reverse: true,
+                padding: EdgeInsets.only(top: 15.0),
+                itemBuilder: (BuildContext context, int index) {
+                  final DocumentSnapshot message =
+                      snapshot.data.documents[index];
+                  // final bool isMe = message.sender.id == currentUser.id;
+                  return _buildMessage(message);
+                },
+                itemCount: snapshot.data.documents.length,
+                controller: listScrollController,
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
+    ),
+    _buildMessageComposer(),
         ],
       ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: StreamBuilder(
-                  stream: Firestore.instance
-                      .collection('messages')
-                      .document(widget.chatId)
-                      .collection('threads')
-                      .orderBy('timestamp', descending: true)
-                      .limit(20)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        reverse: true,
-                        padding: EdgeInsets.only(top: 15.0),
-                        itemBuilder: (BuildContext context, int index) {
-                          final DocumentSnapshot message =
-                              snapshot.data.documents[index];
-                          // final bool isMe = message.sender.id == currentUser.id;
-                          return _buildMessage(message);
-                        },
-                        itemCount: snapshot.data.documents.length,
-                        controller: listScrollController,
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
-              ),
-            ),
-            _buildMessageComposer(),
-          ],
         ),
-      ),
-    );
+      );
   }
 }
